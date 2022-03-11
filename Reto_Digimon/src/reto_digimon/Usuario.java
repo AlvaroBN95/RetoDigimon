@@ -67,5 +67,15 @@ public class Usuario {
         cantTokens = tokens;
     }
 
+    public void sumaPartidaJugada(){
+        pJugadas++;
+    }
     
+    public void sumaPartidaGanada(){
+        partidasGan++;
+    }
+    
+    public void sumaToken(){
+        cantTokens++;
+    }
 }
