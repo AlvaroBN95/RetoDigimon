@@ -11,4 +11,42 @@ package reto_digimon;
  */
 public class Tiene {
     
+    private String nombreUsu;
+    private String nombreDigimon;
+    private Equipo equipo;
+    
+    
+    public Tiene(){}
+    
+    public Tiene(String usuario, String digimon, Equipo eq){
+        nombreUsu = usuario;
+        nombreDigimon = digimon;
+        equipo = eq;
+        
+    }
+
+    public String getNombreUsu() {
+        return nombreUsu;
+    }
+
+    public void setNombreUsu(String nombreUsu) {
+        this.nombreUsu = nombreUsu;
+    }
+
+    public String getNombreDigimon() {
+        return nombreDigimon;
+    }
+
+    public void setNombreDigimon(String nombreDigimon) {
+        this.nombreDigimon = nombreDigimon;
+    }
+
+    public Equipo getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(Equipo equipo) {
+        this.equipo = equipo;
+    }
+    
 }
