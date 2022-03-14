@@ -18,12 +18,12 @@ public class Usuario {
     private int partidasGan;
     private int cantTokens;
     
-    public Usuario(String nombre, String contrasenya, int p_jugadas, int p_ganadas, int tokens) {
+    public Usuario(String nombre, String contrasenya) {
         nombreUsu = nombre;
         pass = contrasenya;
-        pJugadas = p_jugadas;
-        partidasGan = p_ganadas;
-        cantTokens = tokens;
+        pJugadas = 0;
+        partidasGan = 0;
+        cantTokens = 0;
     }
 
 
@@ -67,5 +67,15 @@ public class Usuario {
         cantTokens = tokens;
     }
 
+    public void sumaPartidaJugada(){
+        pJugadas++;
+    }
     
+    public void sumaPartidaGanada(){
+        partidasGan++;
+    }
+    
+    public void sumaToken(){
+        cantTokens++;
+    }
 }
