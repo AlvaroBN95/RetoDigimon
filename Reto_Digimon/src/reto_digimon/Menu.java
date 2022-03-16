@@ -10,6 +10,8 @@ package reto_digimon;
  * @author Alvaro
  */
 public class Menu {
+
+   
    public String AltaUsuario="";
    public String Contraseña="";
    
@@ -19,4 +21,22 @@ public class Menu {
    Contraseña=Contra;
    
    }
+   
+    public String getAltaUsuario() {
+        return AltaUsuario;
+    }
+
+    public void setAltaUsuario(String AltaUsuario) {
+        this.AltaUsuario = AltaUsuario;
+    }
+
+    public String getContraseña() {
+        return Contraseña;
+    }
+
+    public void setContraseña(String Contraseña) {
+       this.Contraseña = Contraseña;
+    }
+   
+   
 }
