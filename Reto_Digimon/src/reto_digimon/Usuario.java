@@ -85,7 +85,7 @@ public class Usuario {
        
        try{
            
-        ConexionBBDD();
+        ConexionBBDD('u');
         
        } catch (Exception ex){
            

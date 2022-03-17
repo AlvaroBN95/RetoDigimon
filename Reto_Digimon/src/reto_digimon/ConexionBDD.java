@@ -45,7 +45,7 @@ public class ConexionBDD {
 
     }
 
-    public static void consulta(String consulta) throws Exception {
+    public static void consultaDigimon(String consulta) throws Exception {
 
         statement = connection.createStatement();
         resultSet = statement.executeQuery(consulta);
@@ -63,13 +63,53 @@ public class ConexionBDD {
                     resultSet.getString(6));
         }
     }
+    
+    public static void consultaTiene(String consulta) throws Exception {
 
-    public static void ConexionBBDD() throws Exception {
+        statement = connection.createStatement();
+        resultSet = statement.executeQuery(consulta);
+        
+        while (resultSet.next()) {
+            
+            //%d entero, %fn decimales, %s String
+            
+            System.out.printf("%s %s %s",
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3));
+        }
+    }
+    
+    public static void consultaUsuario(String consulta) throws Exception {
+
+        statement = connection.createStatement();
+        resultSet = statement.executeQuery(consulta);
+        
+        while (resultSet.next()) {
+            
+            //%d entero, %fn decimales, %s String
+            
+            System.out.printf("%s %s %d %d %d",
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getInt(3),
+                    resultSet.getInt(4),
+                    resultSet.getInt(5));
+        }
+    }
+
+    public static void ConexionBBDD(int clase) throws Exception {
 
         try {
 
             conectar();
-            consulta("SELECT * FROM digimon");
+            
+            switch(clase){
+                case 'd': consultaDigimon("SELECT * FROM digimon"); break;
+                case 'u': consultaUsuario("SELECT * FROM usuario"); break;
+                case 't': consultaTiene("SELECT * FROM tiene"); break;
+                default: System.err.println("Error. Clase no reconocida.");
+            }
 
         } catch (SQLException ex) {
             
