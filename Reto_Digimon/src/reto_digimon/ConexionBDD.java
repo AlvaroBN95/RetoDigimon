@@ -12,44 +12,70 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConexionBDD {
-        static final String DB_URL =
-      "jdbc:mariadb://localhost:3306/digimon";
-   static final String DB_DRV =
-      "com.mariadb.jdbc.Driver";
-   static final String DB_USER = "pma";
-   static final String DB_PASSWD = "alvaro";
-
-   public static void main(String[] args){
-
-      Connection connection = null;
-      Statement statement = null;
-      ResultSet resultSet = null;
-
-      try{
-         connection=DriverManager.getConnection
-            (DB_URL,DB_USER,DB_PASSWD);
-         statement=connection.createStatement();
-         resultSet=statement.executeQuery
-            ("SELECT * FROM digimon");
-         while(resultSet.next()){
-            System.out.printf("%st%st%st%fn",
-            resultSet.getString(1),
-            resultSet.getString(2),
-            resultSet.getString(3),
-            resultSet.getFloat(4));
-         }
-
-      }catch(SQLException ex){
-      }finally{
-         try {
-            resultSet.close();
-            statement.close();
-            connection.close();
-         } catch (SQLException ex) {
-         }
-      }
-   }
     
- 
+
+    public static Connection connection;
+    public static Statement statement;
+    public static ResultSet resultSet;
     
+    
+    static final String DB_URL
+            = "jdbc:mysql://localhost:3306/digimon";
+    static final String DB_DRV
+            = "com.mysql.jdbc.Driver";
+    static final String DB_USER = "pma";
+    static final String DB_PASSWD = "alvaro";
+    
+
+    public ConexionBDD() {}
+    
+    
+
+    public static void conectar() throws Exception {
+
+        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
+
+    }
+
+    public static void desconectar() throws Exception {
+        
+        resultSet.close();
+        statement.close();
+        connection.close();
+
+    }
+
+    public static void consulta(String consulta) throws Exception {
+
+        statement = connection.createStatement();
+        resultSet = statement.executeQuery(consulta);
+        
+        while (resultSet.next()) {
+            
+            //%d entero, %fn decimales, %s String
+            
+            System.out.printf("%s %d %d %s %s %s",
+                    resultSet.getString(1),
+                    resultSet.getInt(2),
+                    resultSet.getInt(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6));
+        }
+    }
+
+    public static void ConexionBBDD() throws Exception {
+
+        try {
+
+            conectar();
+            consulta("SELECT * FROM digimon");
+
+        } catch (SQLException ex) {
+            
+            throw ex;
+            
+        }
+    }
+
 }
