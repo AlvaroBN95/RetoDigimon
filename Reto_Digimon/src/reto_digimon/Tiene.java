@@ -56,7 +56,7 @@ public class Tiene {
        
        try{
            
-        ConexionBBDD('t');
+        //ConexionBBDD('t');
         
        } catch (Exception ex){
            

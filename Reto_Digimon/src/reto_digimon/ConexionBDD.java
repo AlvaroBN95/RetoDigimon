@@ -62,6 +62,7 @@ public class ConexionBDD {
                     resultSet.getString(5),
                     resultSet.getString(6));
         }
+        System.out.println("\n");
     }
     
     public static void consultaTiene(String consulta) throws Exception {
@@ -96,18 +97,19 @@ public class ConexionBDD {
                     resultSet.getInt(4),
                     resultSet.getInt(5));
         }
+        System.out.println();
     }
 
-    public static void ConexionBBDD(int clase) throws Exception {
+    public static void ConexionBBDD(char clase, String consulta) throws Exception {
 
         try {
 
             conectar();
             
             switch(clase){
-                case 'd': consultaDigimon("SELECT * FROM digimon"); break;
-                case 'u': consultaUsuario("SELECT * FROM usuario"); break;
-                case 't': consultaTiene("SELECT * FROM tiene"); break;
+                case 'd': consultaDigimon(consulta); break;
+                case 'u': consultaUsuario(consulta); break;
+                case 't': consultaTiene(consulta); break;
                 default: System.err.println("Error. Clase no reconocida.");
             }
 

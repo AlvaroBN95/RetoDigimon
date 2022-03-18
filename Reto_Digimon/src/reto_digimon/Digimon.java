@@ -88,7 +88,7 @@ public class Digimon {
        
        try{
            
-        ConexionBBDD('d');
+      //  ConexionBBDD('d',);
         
        } catch (Exception ex){
            
