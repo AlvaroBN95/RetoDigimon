@@ -1,7 +1,10 @@
 package reto_digimon;
 
 import Sleer1.SLeer1;
+import java.sql.SQLException;
 import static reto_digimon.ConexionBDD.*;
+import static reto_digimon.Usuario.*;
+import static reto_digimon.Tiene.*;
 
 
 /*
@@ -36,21 +39,11 @@ public class Menu {
 
     }
 
-    public static void creaUsuario() {
-
-    }
-
-    public static void verEquipo() {
-
-    }
-
     public static void partida() {
 
     }
 
-    public static void buscaUsuario() {
-
-    }
+    
 
     public static void crearDigimon() {
 
@@ -58,7 +51,7 @@ public class Menu {
 
     public static void verDigimon() {
         try {
-            ConexionBBDD('d', "SELECT * FROM Digimon");
+            //("SELECT * FROM Digimon");
         } catch (Exception ex) {
             System.err.println("\tJoel tiene el pene grande");
 
@@ -94,7 +87,7 @@ public class Menu {
                     System.out.println("Escoja una opcion valida");
             }
 
-        } while ((eleccion >= 1 || eleccion <= 5)&& eleccion != 3);
+        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 3);
     }
 
     public static void usuarioComun() {
@@ -109,16 +102,16 @@ public class Menu {
             switch (eleccion) {
 
                 case 1:
-                    creaUsuario();
+                    creaUsuario(); //En clase usuario
                     menuGeneral();
                     break;
 
                 case 2:
-                    verEquipo();
+                    verEquipo(); //En clase Tiene
                     break;
 
                 case 3:
-                    partida();
+                    partida(); //Por cambiar de clase
                     break;
 
                 case 4:
@@ -130,7 +123,7 @@ public class Menu {
                     break;
 
             }
-        } while  ((eleccion >= 1 || eleccion <= 5)&& eleccion != 4);
+        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 4);
 
     }
 
@@ -165,7 +158,7 @@ public class Menu {
                     System.out.print("Escoge una opcion valida. ");
                     break;
             }
-        } while ((eleccion >= 1 || eleccion <= 5)&& eleccion != 4);
+        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 4);
 
     }
 

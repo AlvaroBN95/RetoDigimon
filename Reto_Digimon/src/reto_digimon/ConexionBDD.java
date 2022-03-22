@@ -12,43 +12,60 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConexionBDD {
-    
 
-    public static Connection connection;
-    public static Statement statement;
+    private static Connection connection;
+    private static Statement statement;
     public static ResultSet resultSet;
-    
-    
+
     static final String DB_URL
             = "jdbc:mysql://localhost:3306/digimon";
     static final String DB_DRV
             = "com.mysql.jdbc.Driver";
     static final String DB_USER = "pma";
     static final String DB_PASSWD = "alvaro";
-    
 
-    public ConexionBDD() {}
-    
-    
+    public ConexionBDD() {
+    }
 
-    public static void conectar() throws Exception {
+    public static void conectar(String consulta) throws Exception {
 
         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
-
-    }
-
-    public static void desconectar() throws Exception {
-        
-        resultSet.close();
-        statement.close();
-        connection.close();
-
-    }
-
-    public static void consultaDigimon(String consulta) throws Exception {
-
         statement = connection.createStatement();
         resultSet = statement.executeQuery(consulta);
+    }
+
+    public static void desconectar() {
+        try {
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException ex) {
+
+            System.out.println("No se cierra y no sabemos porqué");
+
+        }
+
+    }
+
+    public static Statement getStatement() {
+        return statement;
+    }
+
+    public static void setStatement(Statement statement) {
+        ConexionBDD.statement = statement;
+    }
+
+    public static ResultSet getResultSet() {
+        return resultSet;
+    }
+
+    public static void setResultSet(ResultSet resultSet) {
+        ConexionBDD.resultSet = resultSet;
+    }
+
+    /*public static void consultaDigimon(String consulta) throws Exception {
+
+        
         
         while (resultSet.next()) {
             
@@ -62,7 +79,7 @@ public class ConexionBDD {
                     resultSet.getString(5),
                     resultSet.getString(6));
         }
-        System.out.println("\n");
+        System.out.println();
     }
     
     public static void consultaTiene(String consulta) throws Exception {
@@ -79,6 +96,8 @@ public class ConexionBDD {
                     resultSet.getString(2),
                     resultSet.getString(3));
         }
+        System.out.println();
+
     }
     
     public static void consultaUsuario(String consulta) throws Exception {
@@ -118,6 +137,5 @@ public class ConexionBDD {
             throw ex;
             
         }
-    }
-
+    }*/
 }
