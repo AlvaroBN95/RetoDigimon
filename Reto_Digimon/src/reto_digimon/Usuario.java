@@ -5,27 +5,29 @@
  */
 package reto_digimon;
 
+import static reto_digimon.ConexionBDD.*;
+
 /**
  *
  * @author usuario
  */
 public class Usuario {
 
-    
     private String nombreUsu;
     private String pass;
     private int pJugadas;
     private int partidasGan;
     private int cantTokens;
     
+
     public Usuario(String nombre, String contrasenya) {
         nombreUsu = nombre;
         pass = contrasenya;
         pJugadas = 0;
         partidasGan = 0;
         cantTokens = 0;
+     
     }
-
 
     public String getNombreUsu() {
         return nombreUsu;
@@ -67,15 +69,38 @@ public class Usuario {
         cantTokens = tokens;
     }
 
-    public void sumaPartidaJugada(){
+    public void sumaPartidaJugada() {
         pJugadas++;
     }
-    
-    public void sumaPartidaGanada(){
+
+    public void sumaPartidaGanada() {
         partidasGan++;
     }
-    
-    public void sumaToken(){
+
+    public void sumaToken() {
         cantTokens++;
     }
+    
+    public static void  main (String args[]){
+       
+       try{
+           
+        //ConexionBBDD('u');
+        
+       } catch (Exception ex){
+           
+           System.err.println(ex);
+
+       } finally {
+       
+           try {
+
+                desconectar();
+
+            } catch (Exception ex) {
+
+                System.err.println(ex);
+            }
+       }
+   }
 }
