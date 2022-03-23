@@ -1,7 +1,11 @@
 package reto_digimon;
 
 import Sleer1.SLeer1;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
 import reto_digimon.ConexionBDD.*;
 import reto_digimon.Tiene;
 import reto_digimon.Usuario;
@@ -21,13 +25,32 @@ public class Menu {
     private static int eleccion;
 
     public static void login() {
-        String usuario = "";
-        String contrasena = "";
+        HashMap<String, String> login = new HashMap<>();
+        String usuario;
+        String contrasena;
 
         SLeer1.limpiar();
         usuario = SLeer1.datoString("Introduzca su usuario: ");
-
         contrasena = SLeer1.datoString("Introduzca su contraseña: ");
+        
+        try{
+            Connection con = ConexionBDD.getConexion();
+            String consulta = ("SELECT NombreUsu, Pass FROM Usuario");
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+            
+            while(output.next()){
+                
+                String nombreUsuario = output.getString(1);
+                String passwd = output.getString(2);
+                login.put(nombreUsuario, passwd);
+            }
+            
+        }catch(Exception ex){
+            
+        }finally{
+            
+        }
 
     }
 
@@ -64,7 +87,7 @@ public class Menu {
         Usuario u1 = new Usuario();
         
         do {
-            System.out.println("\n----MENÚ GENERAL----");
+            System.out.println("\n\n----MENÚ GENERAL----");
             System.out.println("1.Iniciar como administrador: ");
             System.out.println("2.Iniciar como usuario: ");
             System.out.println("3.Crear Usuario: ");
@@ -74,7 +97,7 @@ public class Menu {
             switch (eleccion) {
 
                 case 1:
-                    login();//oel
+                    login();//joel
                     administrador();
                     break;
 
@@ -90,7 +113,7 @@ public class Menu {
                     break;
                     
                 case 4:
-                    System.out.println("Saliendo del DigiJuego");
+                    System.out.println("\nSaliendo del DigiJuego");
                     break;
 
                 default:

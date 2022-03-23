@@ -32,59 +32,67 @@ public class Usuario {
         cantTokens = 0;
 
     }
-    
-    public Usuario (){}
+
+    public Usuario() {
+    }
 
     public void creaUsuario() {
 
+        System.out.println("\n\n-----------------------------\n   **CREACIÓN DE USUARIO**");
         SLeer1.limpiar();
-        String nombre = SLeer1.datoString("Usuario: ");
-        String pass = "";
-        String pass2 = "";
+        String nombre = SLeer1.datoString("Nombre de usuario (0 para volver): ");
 
-        if (existeUsuario(nombre)) {
+        while (!nombre.equals("0")) {
+            
+            String pass = "";
+            String pass2 = "";
 
-            System.err.println("\nEste usuario ya existe.");
+            if (existeUsuario(nombre)) {
 
-        } else {
+                System.err.println("\tEste usuario ya existe.");
+                System.out.println();
+                nombre = SLeer1.datoString("\nNombre de usuario (0 para salir): ");
 
-            do {
-                pass = SLeer1.datoString("Contraseña: ");
-                pass2 = SLeer1.datoString("Contraseña: ");
+            } else {
 
-                if (!(pass.equals(pass2))) {
-                    System.err.println("\nLas contraseñas no coinciden.");
-                    System.out.println();
+                do {
+                    pass = SLeer1.datoString("Contraseña: ");
+                    pass2 = SLeer1.datoString("Contraseña: ");
+
+                    if (!(pass.equals(pass2))) {
+                        System.err.println("\nLas contraseñas no coinciden.");
+                        System.out.println();
+                    }
+                } while (!(pass.equals(pass2)));
+
+                nombreUsu = nombre;
+                this.pass = pass;
+
+                try {
+                    Connection con = ConexionBDD.getConexion();
+                    String consulta = "INSERT INTO Usuario (NombreUsu, Pass, PJugadas, PartidasGan, CantTokens) VALUES(?, ?, ?, ?, ?)";
+                    PreparedStatement ps = con.prepareStatement(consulta);
+
+                    ps.setString(1, nombreUsu);
+                    ps.setString(2, this.pass);
+                    ps.setInt(3, pJugadas);
+                    ps.setInt(4, partidasGan);
+                    ps.setInt(5, cantTokens);
+                    ps.executeUpdate();
+
+                    System.out.println("\nEl usuario " + nombreUsu + " se ha creado existosamente.");
+
+                } catch (Exception ex) {
+
+                    System.err.println("Se ha producido un error en la creación del usuario." + ex.getMessage());
+
+                } finally {
+
+                    ConexionBDD.desconectar();
+
                 }
-            } while (!(pass.equals(pass2)));
-
-            nombreUsu = nombre;
-            this.pass = pass;
-
-            try {
-                Connection con = ConexionBDD.getConexion();
-                String consulta = "INSERT INTO Usuario (NombreUsu, Pass, PJugadas, PartidasGan, CantTokens) VALUES(?, ?, ?, ?, ?)";
-                PreparedStatement ps = con.prepareStatement(consulta);
-                
-                ps.setString(1, nombreUsu);
-                ps.setString(2, this.pass);
-                ps.setInt(3, pJugadas);
-                ps.setInt(4, partidasGan);
-                ps.setInt(5, cantTokens);
-                ps.executeUpdate();
-
-                System.out.println("\nEl usuario " + nombreUsu + " se ha creado existosamente.");
-
-            } catch (Exception ex) {
-
-                System.err.println("Se ha producido un error en la creación del usuario." + ex.getMessage());
-
-            } finally {
-
-                ConexionBDD.desconectar();
 
             }
-
         }
 
     }
@@ -118,7 +126,7 @@ public class Usuario {
 
         } catch (Exception ex) {
 
-            System.err.println("\nError en el método buscaUsuario de la clase Menu.");
+            System.err.println(ex.getMessage());
         } finally {
 
             ConexionBDD.desconectar();
