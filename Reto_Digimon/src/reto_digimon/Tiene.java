@@ -28,7 +28,7 @@ public class Tiene {
 
     }
     
-    public static void verEquipo() {
+    public void verEquipo() {
 
     }
 

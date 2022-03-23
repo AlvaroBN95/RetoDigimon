@@ -15,36 +15,59 @@ public class ConexionBDD {
 
     private static Connection connection;
     private static Statement statement;
-    public static ResultSet resultSet;
+    private static ResultSet resultSet;
 
     static final String DB_URL
-            = "jdbc:mysql://localhost:3306/digimon";
+            = "jdbc:mysql://localhost:3306/Digimon";
     static final String DB_DRV
             = "com.mysql.jdbc.Driver";
-    static final String DB_USER = "pma";
-    static final String DB_PASSWD = "alvaro";
+    static final String DB_USER = "root";
+    static final String DB_PASSWD = "1311";
 
     public ConexionBDD() {
     }
 
-    public static void conectar(String consulta) throws Exception {
+    /*public static Connection conectar(String consulta) throws Exception {
 
         connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
         statement = connection.createStatement();
         resultSet = statement.executeQuery(consulta);
-    }
-
+        
+        return connection;
+    }*/
     public static void desconectar() {
+
         try {
-            resultSet.close();
-            statement.close();
-            connection.close();
+            
+            if(connection != null){
+                
+                connection.close();
+                System.out.println("Se ha cerrado la conexión.");
+                
+            }
+
         } catch (SQLException ex) {
 
-            System.out.println("No se cierra y no sabemos porqué");
+            System.out.println("No se cierra y no sabemos porqué" + ex.getMessage());
 
         }
 
+    }
+
+    public static Connection getConexion() {
+
+        Connection con = null;
+        try {
+
+            Class.forName(DB_DRV);
+            con = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
+
+        } catch (Exception ex) {
+
+            System.err.println("Error: " + ex.getMessage());
+
+        }
+        return con;
     }
 
     public static Statement getStatement() {
