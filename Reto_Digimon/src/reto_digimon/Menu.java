@@ -1,7 +1,10 @@
 package reto_digimon;
 
 import Sleer1.SLeer1;
-import static reto_digimon.ConexionBDD.*;
+import java.sql.SQLException;
+import reto_digimon.ConexionBDD.*;
+import reto_digimon.Tiene;
+import reto_digimon.Usuario;
 
 
 /*
@@ -36,22 +39,11 @@ public class Menu {
 
     }
 
-    public static void creaUsuario() {
-
-    }
-
-    public static void verEquipo() {
-
-    }
-
     public static void partida() {
 
     }
 
-    public static boolean buscaUsuario() {
-        boolean paco = true;
-        return paco;
-    }
+    
 
     public static void crearDigimon() {
         try{
@@ -67,7 +59,7 @@ public class Menu {
 
     public static void verDigimon() {
         try {
-            ConexionBBDD('d', "SELECT * FROM Digimon");
+            //("SELECT * FROM Digimon");
         } catch (Exception ex) {
             System.err.println("\tError fatal");
 
@@ -76,10 +68,14 @@ public class Menu {
 
     public static void menuGeneral() {
 
+        Usuario u1 = new Usuario();
+        
         do {
+            System.out.println("\n----MENÚ GENERAL----");
             System.out.println("1.Iniciar como administrador: ");
             System.out.println("2.Iniciar como usuario: ");
-            System.out.println("3.Salir del programa: ");
+            System.out.println("3.Crear Usuario: ");
+            System.out.println("4.Salir del Digijuego");
             eleccion = SLeer1.datoInt("Elige tu opcion: ");
 
             switch (eleccion) {
@@ -96,57 +92,62 @@ public class Menu {
                     break;
 
                 case 3:
-                    salir();
+                    u1.creaUsuario();
+                    break;
+                    
+                case 4:
+                    System.out.println("Saliendo del DigiJuego");
                     break;
 
                 default:
-                    System.out.println("Escoja una opcion valida");
+                    System.err.println("\n\tEscoja una opcion valida\n");
             }
 
-        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 3);
+        } while (eleccion < 1 || eleccion > 4);
     }
 
     public static void usuarioComun() {
 
+        
+        Tiene t1 = new Tiene();
+        
         do {
-            System.out.println("1.Crear usuario: ");
-            System.out.println("2.Ver equipo: ");
-            System.out.println("3.Iniciar partida: ");
-            System.out.println("4.Cerrar sesion: ");
+            System.out.println("\n----MENÚ USUARIO----");
+            System.out.println("1.Ver equipo.");
+            System.out.println("2.Iniciar partida.");
+            System.out.println("3.Cerrar sesión.");
             eleccion = SLeer1.datoInt("Elige tu opcion: ");
-
+            
             switch (eleccion) {
 
                 case 1:
-                    creaUsuario();
-                    menuGeneral();
+                    t1.verEquipo();
+                    usuarioComun();
                     break;
 
                 case 2:
-                    verEquipo();
+                    partida();
+                    usuarioComun();
                     break;
 
                 case 3:
-                    partida();
-                    break;
-
-                case 4:
-                    salir();
+                    menuGeneral();
                     break;
 
                 default:
-                    System.out.print("Escoge una opcion valida. ");
+                    System.err.print("\n\tEscoge una opcion válida.\n");
                     break;
 
             }
-        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 4);
+        } while (eleccion < 1 || eleccion > 3);
 
     }
 
     public static void administrador() {
 
         do {
-            System.out.println("1.Busca un usuario: ");
+            System.out.println("\n----MENÚ ADMINISTRADOR----");
+            System.out.println("\n\n1.Busca un usuario: ");
             System.out.println("2.Crea un Digimon: ");
             System.out.println("3.Buscar Digimons: ");
             System.out.println("4.Cerrar sesion: ");
@@ -154,7 +155,7 @@ public class Menu {
             switch (eleccion) {
 
                 case 1:
-                    buscaUsuario();
+                    //existeUsuario();
                     break;
 
                 case 2:
@@ -171,10 +172,10 @@ public class Menu {
                     break;
 
                 default:
-                    System.out.print("Escoge una opcion valida. ");
+                    System.err.print("\n\tEscoge una opcion valida.\n");
                     break;
             }
-        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 4);
+        } while (eleccion < 1 || eleccion > 4);
 
     }
 

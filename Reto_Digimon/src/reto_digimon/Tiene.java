@@ -27,6 +27,10 @@ public class Tiene {
         equipo = eq;
 
     }
+    
+    public void verEquipo() {
+
+    }
 
     public String getNombreUsu() {
         return nombreUsu;
