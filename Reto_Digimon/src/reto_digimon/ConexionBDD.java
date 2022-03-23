@@ -12,44 +12,153 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConexionBDD {
-        static final String DB_URL =
-      "jdbc:mariadb://localhost:3306/digimon";
-   static final String DB_DRV =
-      "com.mariadb.jdbc.Driver";
-   static final String DB_USER = "pma";
-   static final String DB_PASSWD = "alvaro";
 
-   public static void main(String[] args){
+    private static Connection connection;
+    private static Statement statement;
+    private static ResultSet resultSet;
 
-      Connection connection = null;
-      Statement statement = null;
-      ResultSet resultSet = null;
+    static final String DB_URL
+            = "jdbc:mysql://localhost:3306/Digimon";
+    static final String DB_DRV
+            = "com.mysql.jdbc.Driver";
+    static final String DB_USER = "root";
+    static final String DB_PASSWD = "1311";
 
-      try{
-         connection=DriverManager.getConnection
-            (DB_URL,DB_USER,DB_PASSWD);
-         statement=connection.createStatement();
-         resultSet=statement.executeQuery
-            ("SELECT * FROM digimon");
-         while(resultSet.next()){
-            System.out.printf("%st%st%st%fn",
-            resultSet.getString(1),
-            resultSet.getString(2),
-            resultSet.getString(3),
-            resultSet.getFloat(4));
-         }
+    public ConexionBDD() {
+    }
 
-      }catch(SQLException ex){
-      }finally{
-         try {
-            resultSet.close();
-            statement.close();
-            connection.close();
-         } catch (SQLException ex) {
-         }
-      }
-   }
+    /*public static Connection conectar(String consulta) throws Exception {
+
+        connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
+        statement = connection.createStatement();
+        resultSet = statement.executeQuery(consulta);
+        
+        return connection;
+    }*/
+    public static void desconectar() {
+
+        try {
+            
+            if(connection != null){
+                
+                connection.close();
+                System.out.println("Se ha cerrado la conexión.");
+                
+            }
+
+        } catch (SQLException ex) {
+
+            System.out.println("No se cierra y no sabemos porqué" + ex.getMessage());
+
+        }
+
+    }
+
+    public static Connection getConexion() {
+
+        Connection con = null;
+        try {
+
+            Class.forName(DB_DRV);
+            con = (Connection) DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWD);
+
+        } catch (Exception ex) {
+
+            System.err.println("Error: " + ex.getMessage());
+
+        }
+        return con;
+    }
+
+    public static Statement getStatement() {
+        return statement;
+    }
+
+    public static void setStatement(Statement statement) {
+        ConexionBDD.statement = statement;
+    }
+
+    public static ResultSet getResultSet() {
+        return resultSet;
+    }
+
+    public static void setResultSet(ResultSet resultSet) {
+        ConexionBDD.resultSet = resultSet;
+    }
+
+    /*public static void consultaDigimon(String consulta) throws Exception {
+
+        
+        
+        while (resultSet.next()) {
+            
+            //%d entero, %fn decimales, %s String
+            
+            System.out.printf("%s %d %d %s %s %s",
+                    resultSet.getString(1),
+                    resultSet.getInt(2),
+                    resultSet.getInt(3),
+                    resultSet.getString(4),
+                    resultSet.getString(5),
+                    resultSet.getString(6));
+        }
+        System.out.println();
+    }
     
- 
+    public static void consultaTiene(String consulta) throws Exception {
+
+        statement = connection.createStatement();
+        resultSet = statement.executeQuery(consulta);
+        
+        while (resultSet.next()) {
+            
+            //%d entero, %fn decimales, %s String
+            
+            System.out.printf("%s %s %s",
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3));
+        }
+        System.out.println();
+
+    }
     
+    public static void consultaUsuario(String consulta) throws Exception {
+
+        statement = connection.createStatement();
+        resultSet = statement.executeQuery(consulta);
+        
+        while (resultSet.next()) {
+            
+            //%d entero, %fn decimales, %s String
+            
+            System.out.printf("%s %s %d %d %d",
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getInt(3),
+                    resultSet.getInt(4),
+                    resultSet.getInt(5));
+        }
+        System.out.println();
+    }
+
+    public static void ConexionBBDD(char clase, String consulta) throws Exception {
+
+        try {
+
+            conectar();
+            
+            switch(clase){
+                case 'd': consultaDigimon(consulta); break;
+                case 'u': consultaUsuario(consulta); break;
+                case 't': consultaTiene(consulta); break;
+                default: System.err.println("Error. Clase no reconocida.");
+            }
+
+        } catch (SQLException ex) {
+            
+            throw ex;
+            
+        }
+    }*/
 }

@@ -5,6 +5,8 @@
  */
 package reto_digimon;
 
+import static reto_digimon.ConexionBDD.*;
+
 /**
  *
  * @author usuario
@@ -17,9 +19,10 @@ public class Digimon {
     private Tipo tipo;
     private Nivel nivel;
     private String nomEvoluciona;
-    
-    public Digimon(String nombre, int defen, int ataq, Tipo tip, Nivel niv, String nomev){
-    
+ 
+
+    public Digimon(String nombre, int defen, int ataq, Tipo tip, Nivel niv, String nomev) {
+
         nomDigimon = nombre;
         defensa = defen;
         ataque = ataq;
@@ -27,9 +30,12 @@ public class Digimon {
         nivel = niv;
         nomEvoluciona = nomev;
     }
-    
-    public Digimon(){}
-    
+
+    public Digimon() {
+
+      
+    }
+
     public int getAtaque() {
         return ataque;
     }
@@ -37,7 +43,7 @@ public class Digimon {
     public void setAtaque(int ataque) {
         this.ataque = ataque;
     }
-    
+
     public String getNomDigimon() {
         return nomDigimon;
     }
@@ -77,4 +83,27 @@ public class Digimon {
     public void setNomEvoluciona(String nomEvoluciona) {
         this.nomEvoluciona = nomEvoluciona;
     }
+
+   public static void  main (String args[]){
+       
+       try{
+           
+      //  ConexionBBDD('d',);
+        
+       } catch (Exception ex){
+           
+           System.err.println(ex);
+
+       } finally {
+       
+           try {
+
+                desconectar();
+
+            } catch (Exception ex) {
+
+                System.err.println(ex);
+            }
+       }
+   }
 }

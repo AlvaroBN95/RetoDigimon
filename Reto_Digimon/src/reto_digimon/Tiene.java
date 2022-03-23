@@ -5,24 +5,31 @@
  */
 package reto_digimon;
 
+import static reto_digimon.ConexionBDD.*;
+
 /**
  *
  * @author usuario
  */
 public class Tiene {
-    
+
     private String nombreUsu;
     private String nombreDigimon;
     private Equipo equipo;
-    
-    
-    public Tiene(){}
-    
-    public Tiene(String usuario, String digimon, Equipo eq){
+
+    public Tiene() {
+
+    }
+
+    public Tiene(String usuario, String digimon, Equipo eq) {
         nombreUsu = usuario;
         nombreDigimon = digimon;
         equipo = eq;
-        
+
+    }
+    
+    public void verEquipo() {
+
     }
 
     public String getNombreUsu() {
@@ -49,4 +56,27 @@ public class Tiene {
         this.equipo = equipo;
     }
     
+    public static void  main (String args[]){
+       
+       try{
+           
+        //ConexionBBDD('t');
+        
+       } catch (Exception ex){
+           
+           System.err.println(ex);
+
+       } finally {
+       
+           try {
+
+                desconectar();
+
+            } catch (Exception ex) {
+
+                System.err.println(ex);
+            }
+       }
+   }
+
 }
