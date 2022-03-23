@@ -20,20 +20,18 @@ public class Menu {
 
     private static int eleccion;
 
-    public static void loginAd() {
-        String administrador = "";
+    public static void login() {
+        String usuario = "";
         String contrasena = "";
 
         SLeer1.limpiar();
-        administrador = SLeer1.datoString("Introduzca su usuario: ");
+        usuario = SLeer1.datoString("Introduzca su usuario: ");
 
         contrasena = SLeer1.datoString("Introduzca su contraseña: ");
 
     }
 
-    public static void loginUsu() {
-
-    }
+  
 
     public static void salir() {
 
@@ -46,14 +44,9 @@ public class Menu {
     
 
     public static void crearDigimon() {
-        try{
-       conectar();
-                Digimon d1=new Digimon
-          SLeer1.datoSting(d1.setNomDigimon());
+
            
-        }catch (Exception ex){
-        System.err.print("\t Alguno de los campos no funcionan.");
-        }
+      
 
     }
 
@@ -81,18 +74,19 @@ public class Menu {
             switch (eleccion) {
 
                 case 1:
-                    loginAd();
+                    login();//oel
                     administrador();
                     break;
 
                 case 2:
-                    loginUsu();
+                    login();//joel
                     usuarioComun();
 
                     break;
 
                 case 3:
-                    u1.creaUsuario();
+                    u1.creaUsuario();//usuario
+                    menuGeneral();
                     break;
                     
                 case 4:
@@ -121,12 +115,12 @@ public class Menu {
             switch (eleccion) {
 
                 case 1:
-                    t1.verEquipo();
+                    t1.verEquipo();//tiene, hacer cambiar equipo y controlar que siempre sean 3
                     usuarioComun();
                     break;
 
                 case 2:
-                    partida();
+                    partida();//usuario,
                     usuarioComun();
                     break;
 
@@ -154,20 +148,21 @@ public class Menu {
             eleccion = SLeer1.datoInt("Elige tu opcion: ");
             switch (eleccion) {
 
+         
                 case 1:
-                    //existeUsuario();
+                    crearDigimon();//digimon
                     break;
 
                 case 2:
-                    crearDigimon();
+
+                    verDigimon();//digimon, select * 
                     break;
+                    
+                case 4:
+                      // DefinirDigievolucion(); digimon
+                       break;
 
                 case 3:
-
-                    verDigimon();
-                    break;
-
-                case 4:
                     salir();
                     break;
 
@@ -175,7 +170,7 @@ public class Menu {
                     System.err.print("\n\tEscoge una opcion valida.\n");
                     break;
             }
-        } while (eleccion < 1 || eleccion > 4);
+        } while (eleccion < 1 || eleccion > 3);
 
     }
 

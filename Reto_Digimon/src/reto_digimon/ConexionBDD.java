@@ -21,8 +21,8 @@ public class ConexionBDD {
             = "jdbc:mysql://localhost:3306/Digimon";
     static final String DB_DRV
             = "com.mysql.jdbc.Driver";
-    static final String DB_USER = "root";
-    static final String DB_PASSWD = "1311";
+    static final String DB_USER = "pma";
+    static final String DB_PASSWD = "alvaro";
 
     public ConexionBDD() {
     }
