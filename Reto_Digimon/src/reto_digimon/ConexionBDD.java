@@ -12,24 +12,20 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConexionBDD {
-    
 
     public static Connection connection;
     public static Statement statement;
     public static ResultSet resultSet;
-    
-    
+
     static final String DB_URL
             = "jdbc:mysql://localhost:3306/digimon";
     static final String DB_DRV
             = "com.mysql.jdbc.Driver";
     static final String DB_USER = "pma";
     static final String DB_PASSWD = "alvaro";
-    
 
-    public ConexionBDD() {}
-    
-    
+    public ConexionBDD() {
+    }
 
     public static void conectar() throws Exception {
 
@@ -38,7 +34,7 @@ public class ConexionBDD {
     }
 
     public static void desconectar() throws Exception {
-        
+
         resultSet.close();
         statement.close();
         connection.close();
@@ -49,11 +45,10 @@ public class ConexionBDD {
 
         statement = connection.createStatement();
         resultSet = statement.executeQuery(consulta);
-        
+
         while (resultSet.next()) {
-            
+
             //%d entero, %fn decimales, %s String
-            
             System.out.printf("%s %d %d %s %s %s",
                     resultSet.getString(1),
                     resultSet.getInt(2),
@@ -61,35 +56,34 @@ public class ConexionBDD {
                     resultSet.getString(4),
                     resultSet.getString(5),
                     resultSet.getString(6));
+                    System.out.println("");
         }
         System.out.println("\n");
     }
-    
+
     public static void consultaTiene(String consulta) throws Exception {
 
         statement = connection.createStatement();
         resultSet = statement.executeQuery(consulta);
-        
+
         while (resultSet.next()) {
-            
+
             //%d entero, %fn decimales, %s String
-            
             System.out.printf("%s %s %s",
                     resultSet.getString(1),
                     resultSet.getString(2),
                     resultSet.getString(3));
         }
     }
-    
+
     public static void consultaUsuario(String consulta) throws Exception {
 
         statement = connection.createStatement();
         resultSet = statement.executeQuery(consulta);
-        
+
         while (resultSet.next()) {
-            
+
             //%d entero, %fn decimales, %s String
-            
             System.out.printf("%s %s %d %d %d",
                     resultSet.getString(1),
                     resultSet.getString(2),
@@ -105,18 +99,25 @@ public class ConexionBDD {
         try {
 
             conectar();
-            
-            switch(clase){
-                case 'd': consultaDigimon(consulta); break;
-                case 'u': consultaUsuario(consulta); break;
-                case 't': consultaTiene(consulta); break;
-                default: System.err.println("Error. Clase no reconocida.");
+
+            switch (clase) {
+                case 'd':
+                    consultaDigimon(consulta);
+                    break;
+                case 'u':
+                    consultaUsuario(consulta);
+                    break;
+                case 't':
+                    consultaTiene(consulta);
+                    break;
+                default:
+                    System.err.println("Error. Clase no reconocida.");
             }
 
         } catch (SQLException ex) {
-            
+
             throw ex;
-            
+
         }
     }
 

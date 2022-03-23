@@ -48,11 +48,20 @@ public class Menu {
 
     }
 
-    public static void buscaUsuario() {
-
+    public static boolean buscaUsuario() {
+        boolean paco = true;
+        return paco;
     }
 
     public static void crearDigimon() {
+        try{
+       conectar();
+                Digimon d1=new Digimon
+          SLeer1.datoSting(d1.setNomDigimon());
+           
+        }catch (Exception ex){
+        System.err.print("\t Alguno de los campos no funcionan.");
+        }
 
     }
 
@@ -60,7 +69,7 @@ public class Menu {
         try {
             ConexionBBDD('d', "SELECT * FROM Digimon");
         } catch (Exception ex) {
-            System.err.println("\tJoel tiene el pene grande");
+            System.err.println("\tError fatal");
 
         }
     }
@@ -94,7 +103,7 @@ public class Menu {
                     System.out.println("Escoja una opcion valida");
             }
 
-        } while ((eleccion >= 1 || eleccion <= 5)&& eleccion != 3);
+        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 3);
     }
 
     public static void usuarioComun() {
@@ -130,7 +139,7 @@ public class Menu {
                     break;
 
             }
-        } while  ((eleccion >= 1 || eleccion <= 5)&& eleccion != 4);
+        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 4);
 
     }
 
@@ -139,7 +148,7 @@ public class Menu {
         do {
             System.out.println("1.Busca un usuario: ");
             System.out.println("2.Crea un Digimon: ");
-            System.out.println("3.Busca un Digimon: ");
+            System.out.println("3.Buscar Digimons: ");
             System.out.println("4.Cerrar sesion: ");
             eleccion = SLeer1.datoInt("Elige tu opcion: ");
             switch (eleccion) {
@@ -165,7 +174,7 @@ public class Menu {
                     System.out.print("Escoge una opcion valida. ");
                     break;
             }
-        } while ((eleccion >= 1 || eleccion <= 5)&& eleccion != 4);
+        } while ((eleccion >= 1 || eleccion <= 5) && eleccion != 4);
 
     }
 
