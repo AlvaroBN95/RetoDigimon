@@ -56,27 +56,9 @@ public class Tiene {
         this.equipo = equipo;
     }
     
-    public static void  main (String args[]){
-       
-       try{
-           
-        //ConexionBBDD('t');
+    public void asignarDigimons(){
         
-       } catch (Exception ex){
-           
-           System.err.println(ex);
-
-       } finally {
-       
-           try {
-
-                desconectar();
-
-            } catch (Exception ex) {
-
-                System.err.println(ex);
-            }
-       }
-   }
+    }
+  
 
 }

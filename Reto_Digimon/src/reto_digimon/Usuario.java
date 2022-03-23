@@ -36,7 +36,7 @@ public class Usuario {
     public Usuario (){}
 
     public void creaUsuario() {
-
+        Tiene t1 = new Tiene();
         SLeer1.limpiar();
         String nombre = SLeer1.datoString("Usuario: ");
         String pass = "";
@@ -73,6 +73,8 @@ public class Usuario {
                 ps.setInt(5, cantTokens);
                 ps.executeUpdate();
 
+                t1.asignarDigimons();
+                
                 System.out.println("\nEl usuario " + nombreUsu + " se ha creado existosamente.");
 
             } catch (Exception ex) {
@@ -180,26 +182,4 @@ public class Usuario {
         cantTokens++;
     }
 
-    /*public static void  conectarU (String consulta){
-       
-       try{
-           
-        ConexionBBDD('u', consulta);
-        
-       } catch (Exception ex){
-           
-           System.err.println(ex);
-
-       } finally {
-       
-           try {
-
-                desconectar();
-
-            } catch (Exception ex) {
-
-                System.err.println(ex);
-            }
-       }
-   }*/
 }
