@@ -35,26 +35,31 @@ public class Menu {
         SLeer1.limpiar();
         usuario = SLeer1.datoString("Introduzca su usuario: ");
         contrasena = SLeer1.datoString("Introduzca su contraseña: ");
-
-
-
+        
+        if(!(u1.existeRegistrado(usuario, contrasena))){
+            
+            System.out.println("\n\tUsuario y/o contraseña incorrectos.");
+            System.out.println("");
+            
+        }else{
+            
+            nombreUsu = usuario;
+            logeado = true;
+        }
+        
+        return logeado;
     }
-
-  
-
 
     public static void partida() {
 
     }
 
-
+    public static void crearDigimon() {
 
            
       
 
     }
-
-
 
     public static void verDigimon() {
         try {
@@ -126,11 +131,7 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
-
-
-                    t1.verEquipo("rapa");//tiene, hacer cambiar equipo y controlar que siempre sean 3Poner nombre del susuario
-                    usuarioComun();
-
+                    t1.verEquipo(nombreUsu);//tiene, hacer cambiar equipo y controlar que siempre sean 3
                     break;
 
                 case 2:
@@ -152,10 +153,8 @@ public class Menu {
 
     public static void administrador() {
 
+        int opcion;
         
-
-        Digimon d = new Digimon();
-
         do {
             System.out.println("\n----MENÚ ADMINISTRADOR----");
             System.out.println("1.Busca un usuario: ");
@@ -167,7 +166,7 @@ public class Menu {
 
          
                 case 1:
-                    d.creaDigimon();//digimon
+                    crearDigimon();//digimon
                     break;
 
                 case 2:
@@ -178,9 +177,7 @@ public class Menu {
                       // DefinirDigievolucion(); digimon
                        break;
 
-
-                   
-
+                case 4:
                     break;
 
                 default:
