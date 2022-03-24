@@ -21,7 +21,7 @@ public class ConexionBDD {
     static final String DB_USER = "pma";
     static final String DB_PASSWD = "alvaro";
 
-
+    
     public ConexionBDD() {
     }
 

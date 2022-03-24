@@ -27,6 +27,7 @@ public class Tiene {
     }
 
     public Tiene(String usuario, String digimon, Equipo eq) {
+
         nombreUsu = usuario;
         nombreDigimon = digimon;
         equipo = eq;
@@ -34,7 +35,9 @@ public class Tiene {
     }
 
     public void verEquipo(String NombreUsuario) {
+
         Connection con = null;
+
         try {
 
             con = ConexionBDD.getConexion();
@@ -93,29 +96,18 @@ public class Tiene {
 
                 int randomizarDigimons = metodoRandomizador.nextInt(completar.size());
                 String digimonAleatorio = completar.get(randomizarDigimons);
-                for (int j = 0; j < 3; j++) {
-                    if (!digimonAleatorio.equals(randomizarDigimons)) {
 
-                        String insertar = "INSERT INTO Tiene (NombreUsu, NomDigimon,Equipo) VALUES('" + Usuario + "','" + digimonAleatorio + "',true )";
-                        PreparedStatement anidar = con.prepareStatement(insertar);
-                        anidar.executeUpdate();
-                    } else {
-                        randomizarDigimons = metodoRandomizador.nextInt(completar.size());
-                        digimonAleatorio = completar.get(randomizarDigimons);
-                        String insertar = "INSERT INTO Tiene (NombreUsu, NomDigimon,Equipo) VALUES('" + Usuario + "','" + digimonAleatorio + "',true )";
-                        PreparedStatement anidar = con.prepareStatement(insertar);
-                        anidar.executeUpdate();
-                    }
-                }
+                String insertar = "INSERT INTO Tiene (NombreUsu, NomDigimon,Equipo) VALUES('" + Usuario + "','" + digimonAleatorio + "',true )";
+                PreparedStatement anidar = con.prepareStatement(insertar);
+                anidar.executeUpdate();
+
             }
 
-                } catch (Exception ex) {
+        } catch (Exception ex) {
 
             System.out.println("Se ha producido un error a la hora de insertar datos." + ex);
         }
-            }
-
-    
+    }
 
     public String getNombreUsu() {
         return nombreUsu;

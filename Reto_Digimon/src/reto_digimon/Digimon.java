@@ -61,10 +61,11 @@ public class Digimon {
 
     public static boolean existeDigimon(String nombre) {
 
+        Connection con = null;
         HashSet<String> nombresResult = new HashSet();
         int tamHash = 0;
         boolean existe = false;
-        Connection con = null;
+       
         try {
 
             con = ConexionBDD.getConexion();
@@ -108,6 +109,7 @@ public class Digimon {
 
         } else {
 
+            Connection con = null;
             int defen = pideNumero("Defensa: ", 1);
             int ataq = pideNumero("Ataque: ", 1);
             pideTipo();
@@ -118,7 +120,7 @@ public class Digimon {
             ataque = ataq;
             String prueba = tipo.toString();
             System.out.println(prueba);
-            Connection con = null;
+            
             try {
                 con = ConexionBDD.getConexion();
                 String consulta = "INSERT INTO Digimon (NomDigimon, Defensa, Ataque, Tipo, Nivel) VALUES(?, ?, ?, ?, ?)";
