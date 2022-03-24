@@ -260,25 +260,5 @@ public class Digimon {
         this.nomEvoluciona = nomEvoluciona;
     }
 
-    public static void main(String args[]) {
 
-        try {
-
-            //  ConexionBBDD('d',);
-        } catch (Exception ex) {
-
-            System.err.println(ex);
-
-        } finally {
-
-            try {
-
-                desconectar();
-
-            } catch (Exception ex) {
-
-                System.err.println(ex);
-            }
-        }
-    }
 }
