@@ -37,7 +37,7 @@ public class Menu {
         contrasena = SLeer1.datoString("Introduzca su contraseña: ");
 
 
-
+return true;
     }
 
   
@@ -52,7 +52,7 @@ public class Menu {
            
       
 
-    }
+    
 
 
 
@@ -152,7 +152,7 @@ public class Menu {
 
     public static void administrador() {
 
-        
+        int opcion=0;
 
         Digimon d = new Digimon();
 
@@ -181,8 +181,7 @@ public class Menu {
 
                    
 
-                    break;
-
+                  
                 default:
                     System.err.print("\n\tEscoge una opcion valida.\n");
                     opcion = 1;

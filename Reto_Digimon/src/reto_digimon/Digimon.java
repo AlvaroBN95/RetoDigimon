@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashSet;
 import static reto_digimon.ConexionBDD.*;
-import static reto_digimon.Usuario.existeUsuario;
 
 /**
  *
@@ -48,7 +47,7 @@ public class Digimon {
     public Digimon() {
 
     }
-    
+
     static public int pideNumero(String mensaje, int min) {
         int n;
         do {
@@ -59,16 +58,16 @@ public class Digimon {
         } while (n < min);
         return n;
     }
-    
+
     public static boolean existeDigimon(String nombre) {
 
         HashSet<String> nombresResult = new HashSet();
         int tamHash = 0;
         boolean existe = false;
-
+        Connection con = null;
         try {
 
-            Connection con = ConexionBDD.getConexion();
+            con = ConexionBDD.getConexion();
             String consulta = ("SELECT NomDigimon FROM Digimon");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
@@ -92,7 +91,7 @@ public class Digimon {
             System.err.println("\nError en existeDigimon.");
         } finally {
 
-            ConexionBDD.desconectar();
+            ConexionBDD.desconectar(con);
 
         }
 
@@ -119,9 +118,9 @@ public class Digimon {
             ataque = ataq;
             String prueba = tipo.toString();
             System.out.println(prueba);
-            
+            Connection con = null;
             try {
-                Connection con = ConexionBDD.getConexion();
+                con = ConexionBDD.getConexion();
                 String consulta = "INSERT INTO Digimon (NomDigimon, Defensa, Ataque, Tipo, Nivel) VALUES(?, ?, ?, ?, ?)";
                 PreparedStatement ps = con.prepareStatement(consulta);
 
@@ -140,7 +139,7 @@ public class Digimon {
 
             } finally {
 
-                ConexionBDD.desconectar();
+                ConexionBDD.desconectar(con);
 
             }
 
@@ -211,7 +210,7 @@ public class Digimon {
     public Nivel getNivel() {
         return nivel;
     }
-    
+
     public void pideNivel() {
         int opcion = 0;
         while (opcion < 1 || opcion > 3) {
@@ -231,10 +230,10 @@ public class Digimon {
             }
         }
     }
-    
-    public int numNivel(Nivel n){
+
+    public int numNivel(Nivel n) {
         int numero = 1;
-        switch(n){
+        switch (n) {
             case UNO:
                 numero = 1;
                 break;
@@ -259,6 +258,5 @@ public class Digimon {
     public void setNomEvoluciona(String nomEvoluciona) {
         this.nomEvoluciona = nomEvoluciona;
     }
-
 
 }
