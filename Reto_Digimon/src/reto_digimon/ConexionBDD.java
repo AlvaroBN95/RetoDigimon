@@ -17,8 +17,10 @@ public class ConexionBDD {
             = "jdbc:mysql://192.168.100.106/Digimon";
     static final String DB_DRV
             = "com.mysql.jdbc.Driver";
+
     static final String DB_USER = "root";
     static final String DB_PASSWD = "root";
+
 
     public ConexionBDD() {
     }
