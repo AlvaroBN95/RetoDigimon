@@ -33,10 +33,6 @@ public class Menu {
 
   
 
-    public static void salir() {
-
-    }
-
     public static void partida() {
 
     }
@@ -107,7 +103,7 @@ public class Menu {
             switch (eleccion) {
 
                 case 1:
-                    t1.verEquipo();//tiene, hacer cambiar equipo y controlar que siempre sean 3
+                    t1.verEquipo("rapa");//tiene, hacer cambiar equipo y controlar que siempre sean 3Poner nombre del susuario
                     usuarioComun();
                     break;
 
@@ -155,7 +151,7 @@ public class Menu {
                        break;
 
                 case 3:
-                    salir();
+                   
                     break;
 
                 default:
