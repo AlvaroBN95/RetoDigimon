@@ -25,6 +25,7 @@ public class Tiene {
     }
 
     public Tiene(String usuario, String digimon, Equipo eq) {
+        
         nombreUsu = usuario;
         nombreDigimon = digimon;
         equipo = eq;
@@ -32,9 +33,12 @@ public class Tiene {
     }
 
     public void verEquipo(String NombreUsuario) {
+        
+        Connection con = null;
+        
         try {
 
-            Connection con = ConexionBDD.getConexion();
+            con = ConexionBDD.getConexion();
             String consulta = ("SELECT ti.NomDigimon, di.Defensa, di.Ataque, di.Tipo, di.Nivel, di.NomEvoluviona FROM Tiene ti JOIN Digimon di ON ti.Nomdigimon=di.Nomdigimon WHERE Equipo =\"Si\";");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
@@ -60,7 +64,7 @@ public class Tiene {
             System.err.println("\nNo se puede mostrar tu equipo." + ex.getMessage());
         } finally {
 
-            ConexionBDD.desconectar();
+            ConexionBDD.desconectar(con);
 
         }
 

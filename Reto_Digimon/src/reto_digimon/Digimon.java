@@ -11,7 +11,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashSet;
 import static reto_digimon.ConexionBDD.*;
-import static reto_digimon.Usuario.existeUsuario;
 
 /**
  *
@@ -62,13 +61,14 @@ public class Digimon {
     
     public static boolean existeDigimon(String nombre) {
 
+        Connection con = null;
         HashSet<String> nombresResult = new HashSet();
         int tamHash = 0;
         boolean existe = false;
 
         try {
 
-            Connection con = ConexionBDD.getConexion();
+            con = ConexionBDD.getConexion();
             String consulta = ("SELECT NomDigimon FROM Digimon");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
@@ -92,7 +92,7 @@ public class Digimon {
             System.err.println("\nError en existeDigimon.");
         } finally {
 
-            ConexionBDD.desconectar();
+            ConexionBDD.desconectar(con);
 
         }
 
@@ -109,6 +109,7 @@ public class Digimon {
 
         } else {
 
+            Connection con = null;
             int defen = pideNumero("Defensa: ", 1);
             int ataq = pideNumero("Ataque: ", 1);
             pideTipo();
@@ -121,7 +122,7 @@ public class Digimon {
             System.out.println(prueba);
             
             try {
-                Connection con = ConexionBDD.getConexion();
+                con = ConexionBDD.getConexion();
                 String consulta = "INSERT INTO Digimon (NomDigimon, Defensa, Ataque, Tipo, Nivel) VALUES(?, ?, ?, ?, ?)";
                 PreparedStatement ps = con.prepareStatement(consulta);
 
@@ -140,7 +141,7 @@ public class Digimon {
 
             } finally {
 
-                ConexionBDD.desconectar();
+                ConexionBDD.desconectar(con);
 
             }
 
