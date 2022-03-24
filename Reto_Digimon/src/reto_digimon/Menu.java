@@ -54,13 +54,6 @@ public class Menu {
 
     }
 
-    public static void crearDigimon() {
-
-           
-      
-
-    }
-
     public static void verDigimon() {
         try {
             //("SELECT * FROM Digimon");
@@ -154,6 +147,7 @@ public class Menu {
     public static void administrador() {
 
         int opcion;
+        Digimon d = new Digimon();
         
         do {
             System.out.println("\n----MENÚ ADMINISTRADOR----");
@@ -166,7 +160,7 @@ public class Menu {
 
          
                 case 1:
-                    crearDigimon();//digimon
+                    d.creaDigimon();//digimon
                     break;
 
                 case 2:
