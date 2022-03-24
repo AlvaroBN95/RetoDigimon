@@ -100,7 +100,6 @@ public class Digimon {
     }
 
     public void creaDigimon() {
-        Tiene t1 = new Tiene();
         SLeer1.limpiar();
         System.out.println("Se va a crear un digimon, introduce todos los datos.");
         String nombre = SLeer1.datoString("Nombre: ");
@@ -112,15 +111,15 @@ public class Digimon {
 
             int defen = pideNumero("Defensa: ", 1);
             int ataq = pideNumero("Ataque: ", 1);
-            Tipo tip = pideTipo();
-            Nivel niv = pideNivel();
+            pideTipo();
+            pideNivel();
 
             nomDigimon = nombre;
             defensa = defen;
             ataque = ataq;
-            tipo = tip;
-            nivel = niv;
-
+            String prueba = tipo.toString();
+            System.out.println(prueba);
+            
             try {
                 Connection con = ConexionBDD.getConexion();
                 String consulta = "INSERT INTO Digimon (NomDigimon, Defensa, Ataque, Tipo, Nivel) VALUES(?, ?, ?, ?, ?)";
@@ -181,8 +180,7 @@ public class Digimon {
         this.tipo = tipo;
     }
 
-    public Tipo pideTipo() {
-        Tipo t = Tipo.VACUNA;
+    public void pideTipo() {
         int opcion = 0;
         while (opcion < 1 || opcion > 5) {
             opcion = SLeer1.datoInt("Elija el numero que corresponda con el "
@@ -208,15 +206,13 @@ public class Digimon {
                     System.err.println("El tipo no es correcto. Vuelvelo a intentar.");
             }
         }
-        return t;
     }
 
     public Nivel getNivel() {
         return nivel;
     }
     
-    public Nivel pideNivel() {
-        Nivel n = Nivel.UNO;
+    public void pideNivel() {
         int opcion = 0;
         while (opcion < 1 || opcion > 3) {
             opcion = SLeer1.datoInt("Elija el nivel: \nNivel 1\tNivel 2\tNivel 3.\n");
@@ -234,7 +230,6 @@ public class Digimon {
                     System.err.println("El nivel no es correcto. Vuelvelo a intentar.");
             }
         }
-        return n;
     }
     
     public int numNivel(Nivel n){
