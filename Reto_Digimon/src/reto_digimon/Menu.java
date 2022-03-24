@@ -37,14 +37,6 @@ public class Menu {
 
     }
 
-    
-
-    public static void crearDigimon() {
-
-           
-      
-
-    }
 
     public static void verDigimon() {
         try {
@@ -134,7 +126,7 @@ public class Menu {
     }
 
     public static void administrador() {
-
+        Digimon d = new Digimon();
         do {
             System.out.println("\n----MENÚ ADMINISTRADOR----");
             System.out.println("\n\n1.Busca un usuario: ");
@@ -146,7 +138,7 @@ public class Menu {
 
          
                 case 1:
-                    crearDigimon();//digimon
+                    d.creaDigimon();//digimon
                     break;
 
                 case 2:
