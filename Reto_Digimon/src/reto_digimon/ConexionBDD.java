@@ -22,7 +22,7 @@ public class ConexionBDD {
     static final String DB_DRV
             = "com.mysql.jdbc.Driver";
     static final String DB_USER = "pma";
-    static final String DB_PASSWD = "alvaro";
+    static final String DB_PASSWD = "123456";
 
     public ConexionBDD() {
     }
