@@ -5,7 +5,13 @@
  */
 package reto_digimon;
 
+import Sleer1.SLeer1;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.HashSet;
 import static reto_digimon.ConexionBDD.*;
+import static reto_digimon.Usuario.existeUsuario;
 
 /**
  *
@@ -19,7 +25,6 @@ public class Digimon {
     private Tipo tipo;
     private Nivel nivel;
     private String nomEvoluciona;
- 
 
     public Digimon(String nombre, int defen, int ataq, Tipo tip, Nivel niv, String nomev) {
 
@@ -31,9 +36,117 @@ public class Digimon {
         nomEvoluciona = nomev;
     }
 
+    public Digimon(String nombre, int defen, int ataq, Tipo tip, Nivel niv) {
+
+        nomDigimon = nombre;
+        defensa = defen;
+        ataque = ataq;
+        tipo = tip;
+        nivel = niv;
+    }
+
     public Digimon() {
 
-      
+    }
+    
+    static public int pideNumero(String mensaje, int min) {
+        int n;
+        do {
+            n = SLeer1.datoInt(mensaje);
+            if (n < min) {
+                System.err.println("El dato no es válido, introduce uno válido: ");
+            }
+        } while (n < min);
+        return n;
+    }
+    
+    public static boolean existeDigimon(String nombre) {
+
+        HashSet<String> nombresResult = new HashSet();
+        int tamHash = 0;
+        boolean existe = false;
+
+        try {
+
+            Connection con = ConexionBDD.getConexion();
+            String consulta = ("SELECT NomDigimon FROM Digimon");
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String nombreUsuario = output.getString(1);
+                nombresResult.add(nombreUsuario);
+            }
+
+            tamHash = nombresResult.size();
+            nombresResult.add(nombre);
+
+            if (tamHash == nombresResult.size()) {
+
+                existe = true;
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println("\nError en existeDigimon.");
+        } finally {
+
+            ConexionBDD.desconectar();
+
+        }
+
+        return existe;
+    }
+
+    public void creaDigimon() {
+        Tiene t1 = new Tiene();
+        SLeer1.limpiar();
+        System.out.println("Se va a crear un digimon, introduce todos los datos.");
+        String nombre = SLeer1.datoString("Nombre: ");
+        if (existeDigimon(nombre)) {
+
+            System.err.println("\nEse digimon ya existe.");
+
+        } else {
+
+            int defen = pideNumero("Defensa: ", 1);
+            int ataq = pideNumero("Ataque: ", 1);
+            Tipo tip = pideTipo();
+            Nivel niv = pideNivel();
+
+            nomDigimon = nombre;
+            defensa = defen;
+            ataque = ataq;
+            tipo = tip;
+            nivel = niv;
+
+            try {
+                Connection con = ConexionBDD.getConexion();
+                String consulta = "INSERT INTO Digimon (NomDigimon, Defensa, Ataque, Tipo, Nivel) VALUES(?, ?, ?, ?, ?)";
+                PreparedStatement ps = con.prepareStatement(consulta);
+
+                ps.setString(1, nomDigimon);
+                ps.setInt(2, defensa);
+                ps.setInt(3, ataque);
+                ps.setString(4, tipo.toString());
+                ps.setInt(5, numNivel(nivel));
+                ps.executeUpdate();
+
+                System.out.println("\nEl digimon " + nomDigimon + " se ha creado existosamente.");
+
+            } catch (Exception ex) {
+
+                System.err.println("Se ha producido un error en la creación del digimon. " + ex.getMessage());
+
+            } finally {
+
+                ConexionBDD.desconectar();
+
+            }
+
+        }
+
     }
 
     public int getAtaque() {
@@ -68,8 +181,76 @@ public class Digimon {
         this.tipo = tipo;
     }
 
+    public Tipo pideTipo() {
+        Tipo t = Tipo.VACUNA;
+        int opcion = 0;
+        while (opcion < 1 || opcion > 5) {
+            opcion = SLeer1.datoInt("Elija el numero que corresponda con el "
+                    + "tipo desado: \n1. Vacuna\t2. Virus\t3. Animal\t4. Planta\t"
+                    + "5. Elemental\n");
+            switch (opcion) {
+                case 1:
+                    setTipo(Tipo.VACUNA);
+                    break;
+                case 2:
+                    setTipo(Tipo.VIRUS);
+                    break;
+                case 3:
+                    setTipo(Tipo.ANIMAL);
+                    break;
+                case 4:
+                    setTipo(Tipo.PLANTA);
+                    break;
+                case 5:
+                    setTipo(Tipo.ELEMENTAL);
+                    break;
+                default:
+                    System.err.println("El tipo no es correcto. Vuelvelo a intentar.");
+            }
+        }
+        return t;
+    }
+
     public Nivel getNivel() {
         return nivel;
+    }
+    
+    public Nivel pideNivel() {
+        Nivel n = Nivel.UNO;
+        int opcion = 0;
+        while (opcion < 1 || opcion > 3) {
+            opcion = SLeer1.datoInt("Elija el nivel: \nNivel 1\tNivel 2\tNivel 3.\n");
+            switch (opcion) {
+                case 1:
+                    setNivel(Nivel.UNO);
+                    break;
+                case 2:
+                    setNivel(Nivel.DOS);
+                    break;
+                case 3:
+                    setNivel(Nivel.TRES);
+                    break;
+                default:
+                    System.err.println("El nivel no es correcto. Vuelvelo a intentar.");
+            }
+        }
+        return n;
+    }
+    
+    public int numNivel(Nivel n){
+        int numero = 1;
+        switch(n){
+            case UNO:
+                numero = 1;
+                break;
+            case DOS:
+                numero = 2;
+                break;
+            case TRES:
+                numero = 3;
+                break;
+        }
+        return numero;
     }
 
     public void setNivel(Nivel nivel) {
@@ -84,19 +265,18 @@ public class Digimon {
         this.nomEvoluciona = nomEvoluciona;
     }
 
-   public static void  main (String args[]){
-       
-       try{
-           
-      //  ConexionBBDD('d',);
-        
-       } catch (Exception ex){
-           
-           System.err.println(ex);
+    public static void main(String args[]) {
 
-       } finally {
-       
-           try {
+        try {
+
+            //  ConexionBBDD('d',);
+        } catch (Exception ex) {
+
+            System.err.println(ex);
+
+        } finally {
+
+            try {
 
                 desconectar();
 
@@ -104,6 +284,6 @@ public class Digimon {
 
                 System.err.println(ex);
             }
-       }
-   }
+        }
+    }
 }
