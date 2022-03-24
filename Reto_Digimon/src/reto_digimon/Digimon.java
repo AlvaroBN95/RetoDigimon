@@ -84,7 +84,7 @@ public class Digimon {
         this.nomEvoluciona = nomEvoluciona;
     }
 
-   public static void  main (String args[]){
+   /*public static void  main (String args[]){
        
        try{
            
@@ -105,5 +105,5 @@ public class Digimon {
                 System.err.println(ex);
             }
        }
-   }
+   }*/
 }

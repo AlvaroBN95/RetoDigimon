@@ -13,12 +13,8 @@ import java.sql.Statement;
 
 public class ConexionBDD {
 
-    private static Connection connection;
-    private static Statement statement;
-    private static ResultSet resultSet;
-
     static final String DB_URL
-            = "jdbc:mysql://192.168.103.5/Digimon";
+            = "jdbc:mysql://192.168.100.106/Digimon";
     static final String DB_DRV
             = "com.mysql.jdbc.Driver";
     static final String DB_USER = "root";
@@ -35,23 +31,21 @@ public class ConexionBDD {
         
         return connection;
     }*/
-    public static void desconectar() {
+    public static void desconectar(Connection con) {
 
         try {
             
-            if(connection != null){
+            if(con != null){
                 
-                connection.close();
-                System.out.println("Se ha cerrado la conexión.");
+                con.close();
                 
             }
 
         } catch (SQLException ex) {
 
-            System.out.println("No se cierra y no sabemos porqué" + ex.getMessage());
+            System.out.println(ex.getMessage());
 
         }
-
     }
 
     public static Connection getConexion() {
@@ -68,22 +62,6 @@ public class ConexionBDD {
 
         }
         return con;
-    }
-
-    public static Statement getStatement() {
-        return statement;
-    }
-
-    public static void setStatement(Statement statement) {
-        ConexionBDD.statement = statement;
-    }
-
-    public static ResultSet getResultSet() {
-        return resultSet;
-    }
-
-    public static void setResultSet(ResultSet resultSet) {
-        ConexionBDD.resultSet = resultSet;
     }
 
     /*public static void consultaDigimon(String consulta) throws Exception {

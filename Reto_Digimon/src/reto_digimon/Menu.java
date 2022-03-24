@@ -21,11 +21,14 @@ import reto_digimon.Usuario;
  * @author Alvaro
  */
 public class Menu {
+    
+    private static String nombreUsu;
 
-    private static int eleccion;
-
-    public static void login() {
-        HashMap<String, String> login = new HashMap<>();
+    public static boolean login() {
+        
+        Usuario u1 = new Usuario();
+        boolean logeado = false;
+        
         String usuario;
         String contrasena;
 
@@ -33,38 +36,23 @@ public class Menu {
         usuario = SLeer1.datoString("Introduzca su usuario: ");
         contrasena = SLeer1.datoString("Introduzca su contraseña: ");
         
-        try{
-            Connection con = ConexionBDD.getConexion();
-            String consulta = ("SELECT NombreUsu, Pass FROM Usuario");
-            PreparedStatement ps = con.prepareStatement(consulta);
-            ResultSet output = ps.executeQuery(consulta);
+        if(!(u1.existeRegistrado(usuario, contrasena))){
             
-            while(output.next()){
-                
-                String nombreUsuario = output.getString(1);
-                String passwd = output.getString(2);
-                login.put(nombreUsuario, passwd);
-            }
+            System.out.println("\n\tUsuario y/o contraseña incorrectos.");
+            System.out.println("");
             
-        }catch(Exception ex){
+        }else{
             
-        }finally{
-            
+            nombreUsu = usuario;
+            logeado = true;
         }
-
-    }
-
-  
-
-    public static void salir() {
-
+        
+        return logeado;
     }
 
     public static void partida() {
 
     }
-
-    
 
     public static void crearDigimon() {
 
@@ -85,31 +73,33 @@ public class Menu {
     public static void menuGeneral() {
 
         Usuario u1 = new Usuario();
+        int opcion;
         
         do {
-            System.out.println("\n\n----MENÚ GENERAL----");
+            System.out.println("");
+            System.out.println("----MENÚ GENERAL----");
             System.out.println("1.Iniciar como administrador: ");
             System.out.println("2.Iniciar como usuario: ");
             System.out.println("3.Crear Usuario: ");
             System.out.println("4.Salir del Digijuego");
-            eleccion = SLeer1.datoInt("Elige tu opcion: ");
+            opcion = SLeer1.datoInt("Elige una opcion: ");
 
-            switch (eleccion) {
+            switch (opcion) {
 
                 case 1:
-                    login();//joel
-                    administrador();
+                    if(login()){//joel
+                        administrador();
+                    }
                     break;
 
                 case 2:
-                    login();//joel
-                    usuarioComun();
-
+                    if(login()){//joel
+                        usuarioComun();
+                    }
                     break;
 
                 case 3:
                     u1.creaUsuario();//usuario
-                    menuGeneral();
                     break;
                     
                 case 4:
@@ -117,59 +107,62 @@ public class Menu {
                     break;
 
                 default:
-                    System.err.println("\n\tEscoja una opcion valida\n");
+                    System.err.println("\tEscoja una opcion valida");
+                    System.out.println("");
+                    opcion = 1;
+                    break;
             }
 
-        } while (eleccion < 1 || eleccion > 4);
+        } while (opcion >= 1 && opcion <= 3);
     }
 
     public static void usuarioComun() {
-
         
         Tiene t1 = new Tiene();
+        int opcion;
         
         do {
             System.out.println("\n----MENÚ USUARIO----");
             System.out.println("1.Ver equipo.");
             System.out.println("2.Iniciar partida.");
             System.out.println("3.Cerrar sesión.");
-            eleccion = SLeer1.datoInt("Elige tu opcion: ");
+            opcion = SLeer1.datoInt("Elige tu opcion: ");
             
-            switch (eleccion) {
+            switch (opcion) {
 
                 case 1:
                     t1.verEquipo();//tiene, hacer cambiar equipo y controlar que siempre sean 3
-                    usuarioComun();
                     break;
 
                 case 2:
                     partida();//usuario,
-                    usuarioComun();
                     break;
 
                 case 3:
-                    menuGeneral();
                     break;
 
                 default:
                     System.err.print("\n\tEscoge una opcion válida.\n");
+                    opcion = 1;
                     break;
 
             }
-        } while (eleccion < 1 || eleccion > 3);
+        } while (opcion >= 1 && opcion <= 2);
 
     }
 
     public static void administrador() {
 
+        int opcion;
+        
         do {
             System.out.println("\n----MENÚ ADMINISTRADOR----");
-            System.out.println("\n\n1.Busca un usuario: ");
+            System.out.println("1.Busca un usuario: ");
             System.out.println("2.Crea un Digimon: ");
             System.out.println("3.Buscar Digimons: ");
             System.out.println("4.Cerrar sesion: ");
-            eleccion = SLeer1.datoInt("Elige tu opcion: ");
-            switch (eleccion) {
+            opcion = SLeer1.datoInt("Elige tu opcion: ");
+            switch (opcion) {
 
          
                 case 1:
@@ -177,23 +170,22 @@ public class Menu {
                     break;
 
                 case 2:
-
                     verDigimon();//digimon, select * 
                     break;
                     
-                case 4:
+                case 3:
                       // DefinirDigievolucion(); digimon
                        break;
 
-                case 3:
-                    salir();
+                case 4:
                     break;
 
                 default:
                     System.err.print("\n\tEscoge una opcion valida.\n");
+                    opcion = 1;
                     break;
             }
-        } while (eleccion < 1 || eleccion > 3);
+        } while (opcion >= 1 && opcion <= 3);
 
     }
 
