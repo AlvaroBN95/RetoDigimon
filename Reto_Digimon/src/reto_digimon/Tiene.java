@@ -34,10 +34,10 @@ public class Tiene {
     }
 
     public void verEquipo(String NombreUsuario) {
-        Connection con=null;
+        Connection con = null;
         try {
 
-             con = ConexionBDD.getConexion();
+            con = ConexionBDD.getConexion();
             String consulta = ("SELECT ti.NomDigimon, di.Defensa, di.Ataque, di.Tipo, di.Nivel, di.NomEvoluviona FROM Tiene ti JOIN Digimon di ON ti.Nomdigimon=di.Nomdigimon WHERE Equipo =\"Si\";");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
@@ -68,11 +68,11 @@ public class Tiene {
         }
 
     }
-    
-    public  void asignarDigimons(String Usuario) {
-        
+
+    public void asignarDigimons(String Usuario) {
+        Connection con = null;
         try {
-            Connection con = ConexionBDD.getConexion();
+            con = ConexionBDD.getConexion();
             ArrayList<String> completar = new ArrayList();
 
             String consulta = ("Select NomDigimon FROM Digimon");
@@ -81,27 +81,32 @@ public class Tiene {
 
             while (consu.next()) {
 
-                //int ncontar = Integer.parseInt(contar);
                 String nombres = consu.getString(1);
 
                 completar.add(nombres);
-                System.out.println(nombres);
+
             }
             Random metodoRandomizador = new Random();
 
-            for (int i = 0; i < completar.size(); i++) {
+            for (int i = 0; i < 3; i++) {
 
                 int randomizarDigimons = metodoRandomizador.nextInt(completar.size());
-                String digimonAleatorio=completar.get(randomizarDigimons);
+                String digimonAleatorio = completar.get(randomizarDigimons);
 
-                String insertar = "INSERT INTO Tiene (NombreUsu, NomDigimon,Equipo) VALUES('"+Usuario+"','"+digimonAleatorio+"',true )";
+                String insertar = "INSERT INTO Tiene (NombreUsu, NomDigimon,Equipo) VALUES('" + Usuario + "','" + digimonAleatorio + "',true )";
                 PreparedStatement anidar = con.prepareStatement(insertar);
                 anidar.executeUpdate();
+
+                completar.remove(randomizarDigimons);
+
             }
 
         } catch (Exception ex) {
 
-            System.out.println("Se ha producido un error a la hora de insertar datos." + ex);
+            System.out.println("Se ha producido un error a la hora de insertar datos." + ex.getMessage());
+        } finally {
+            ConexionBDD.desconectar(con);
+
         }
     }
 
@@ -128,7 +133,5 @@ public class Tiene {
     public void setEquipo(Equipo equipo) {
         this.equipo = equipo;
     }
-
- 
 
 }
