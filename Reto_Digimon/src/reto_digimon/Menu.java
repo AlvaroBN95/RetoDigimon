@@ -50,19 +50,6 @@ public class Menu {
         return logeado;
     }
 
-    public static void partida() {
-
-    }
-
-    public static void verDigimon() {
-        try {
-            //("SELECT * FROM Digimon");
-        } catch (Exception ex) {
-            System.err.println("\tError fatal");
-
-        }
-    }
-
     public static void restablecerBD() {
 
         Connection con = null;
@@ -109,19 +96,19 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
-                    if (login()) {//joel
+                    if (login()) {
                         administrador();
                     }
                     break;
 
                 case 2:
-                    if (login()) {//joel
+                    if (login()) {
                         usuarioComun();
                     }
                     break;
 
                 case 3:
-                    u1.creaUsuario();//usuario
+                    u1.creaUsuario();
                     break;
 
                 case 4:
@@ -153,11 +140,11 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
-                    t1.verEquipo(nombreUsu);//tiene, hacer cambiar equipo y controlar que siempre sean 3
+                    t1.verEquipo(nombreUsu);
                     break;
 
                 case 2:
-                    partida();//usuario,
+                    
                     break;
 
                 case 3:
@@ -188,11 +175,10 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
-                    d.creaDigimon();//digimon
-                    break;
+                    d.creaDigimon();
 
                 case 2:
-                    verDigimon();//digimon, select * 
+                    d.verDigimons();
                     break;
 
                 case 3:
@@ -216,5 +202,7 @@ public class Menu {
         menuGeneral();
 
     }
+
+    
 
 }

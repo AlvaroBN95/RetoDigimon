@@ -189,10 +189,8 @@ public class Digimon {
         try {
             con = ConexionBDD.getConexion();
             String consulta = 
-                    "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.NomDigimon=d.NomDigimon WHERE t.NombreUsu='" + usu + "';";
-            //System.out.println(consulta);
+                    "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.NomDigimon=d.NomDigimon WHERE t.NombreUsu='" + usu + "';";         
             PreparedStatement ps = con.prepareStatement(consulta);
-            //ps.setString(1, usu);
             System.out.println(consulta);
             ResultSet output = ps.executeQuery(consulta);
 

@@ -41,12 +41,12 @@ public class Usuario {
     public void creaUsuario() {
         Tiene t1 = new Tiene();
         Connection con = null;
-        
+
         SLeer1.limpiar();
         String nombre = SLeer1.datoString("Nombre de usuario (0 para volver): ");
 
         while (!nombre.equals("0")) {
-            
+
             String pass = "";
             String pass2 = "";
 
@@ -85,7 +85,7 @@ public class Usuario {
 
                     System.out.println("\nEl usuario " + nombreUsu + " se ha creado existosamente.");
                     nombre = "0";
-                    
+
                     t1.asignarDigimons(nombreUsu);
 
                 } catch (Exception ex) {
@@ -97,7 +97,8 @@ public class Usuario {
                     ConexionBDD.desconectar(con);
 
                 }
-            } while (!(pass.equals(pass2)));
+            }
+            while (!(pass.equals(pass2)));
         }
 
     }
@@ -110,9 +111,7 @@ public class Usuario {
         Connection con = null;
 
         try {
-            System.out.println("Hasta aqui bien");
             con = ConexionBDD.getConexion();
-            System.out.println("hasta aqui tambien");
             String consulta = ("SELECT NombreUsu FROM Usuario");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
@@ -135,54 +134,54 @@ public class Usuario {
 
             System.err.println(ex.getMessage());
         } finally {
-            
+
             ConexionBDD.desconectar(con);
 
         }
 
         return existe;
     }
-    
-    public boolean existeRegistrado(String usuario, String contrasena){
-    
+
+    public boolean existeRegistrado(String usuario, String contrasena) {
+
         HashMap<String, String> login = new HashMap<>();
         boolean existe = false;
         Connection con = null;
-        
-        try{
+
+        try {
             con = ConexionBDD.getConexion();
             String consulta = ("SELECT NombreUsu, Pass FROM Usuario");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
-            
-            while(output.next()){
-                
+
+            while (output.next()) {
+
                 String nombreUsuario = output.getString(1);
                 String passwd = output.getString(2);
                 login.put(nombreUsuario, passwd);
             }
-            
-        }catch(Exception ex){
-            
+
+        } catch (Exception ex) {
+
             System.err.println(ex.getMessage());
-        }finally{
-            
+        } finally {
+
             ConexionBDD.desconectar(con);
         }
-        
+
         Iterator<String> it = login.keySet().iterator();
-        
-        while(it.hasNext() && (!existe)){
-            
+
+        while (it.hasNext() && (!existe)) {
+
             String clave = it.next();
             String valor = login.get(clave);
-            
-            if(clave.equals(usuario) && valor.equals(contrasena)){
-                
+
+            if (clave.equals(usuario) && valor.equals(contrasena)) {
+
                 existe = true;
             }
         }
-    
+
         return existe;
     }
 
