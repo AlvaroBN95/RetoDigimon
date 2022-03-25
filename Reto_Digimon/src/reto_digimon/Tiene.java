@@ -27,6 +27,7 @@ public class Tiene {
     }
 
     public Tiene(String usuario, String digimon, Equipo eq) {
+
         nombreUsu = usuario;
         nombreDigimon = digimon;
         equipo = eq;
