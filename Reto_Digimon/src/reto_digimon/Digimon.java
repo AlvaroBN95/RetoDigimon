@@ -183,6 +183,43 @@ public class Digimon {
 
     }
     
+    public void verDigimonsUsuario(String usu){
+        Connection con = null;
+        System.out.println(usu);
+        try {
+            con = ConexionBDD.getConexion();
+            String consulta = 
+                    "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.NomDigimon=d.NomDigimon WHERE t.NombreUsu='" + usu + "';";
+            //System.out.println(consulta);
+            PreparedStatement ps = con.prepareStatement(consulta);
+            //ps.setString(1, usu);
+            System.out.println(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String NomDigimon = output.getString(1);
+                int Defensa = output.getInt(2);
+                int Ataque = output.getInt(3);
+                String Tipo = output.getString(4);
+                int Nivel = output.getInt(5);
+                String NomEvoluviona = output.getString(6);
+
+                System.out.println("\nNombre: " + NomDigimon + "\nDefensa: " + Defensa + "\nAtaque: " + Ataque + "\nTipo: " + Tipo + "\nNivel: " + Nivel + "\nNombre evolución: " + NomEvoluviona);
+
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
+    }
+
     public int getAtaque() {
         return ataque;
     }
