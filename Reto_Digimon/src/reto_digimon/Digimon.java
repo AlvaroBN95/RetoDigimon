@@ -47,7 +47,7 @@ public class Digimon {
     public Digimon() {
 
     }
-    
+
     static public int pideNumero(String mensaje, int min) {
         int n;
         do {
@@ -58,14 +58,14 @@ public class Digimon {
         } while (n < min);
         return n;
     }
-    
+
     public static boolean existeDigimon(String nombre) {
 
         Connection con = null;
         HashSet<String> nombresResult = new HashSet();
         int tamHash = 0;
         boolean existe = false;
-
+       
         try {
 
             con = ConexionBDD.getConexion();
@@ -120,7 +120,7 @@ public class Digimon {
             ataque = ataq;
             String prueba = tipo.toString();
             System.out.println(prueba);
-            
+
             try {
                 con = ConexionBDD.getConexion();
                 String consulta = "INSERT INTO Digimon (NomDigimon, Defensa, Ataque, Tipo, Nivel) VALUES(?, ?, ?, ?, ?)";
@@ -147,6 +147,77 @@ public class Digimon {
 
         }
 
+    }
+
+    public void verDigimons() {
+
+        Connection con = null;
+        try {
+            con = ConexionBDD.getConexion();
+            String consulta = "SELECT NomDigimon, Defensa, Ataque, Tipo, Nivel, NomEvoluviona FROM Digimon;";
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String NomDigimon = output.getString(1);
+                int Defensa = output.getInt(2);
+                int Ataque = output.getInt(3);
+                String Tipo = output.getString(4);
+                int Nivel = output.getInt(5);
+                String NomEvoluviona = output.getString(6);
+
+                System.out.println("\nNombre: " + NomDigimon + "\nDefensa: " + Defensa + "\nAtaque: " + Ataque + "\nTipo: " + Tipo + "\nNivel: " + Nivel + "\nNombre evolución: " + NomEvoluviona);
+
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println("Se ha producido un error en la creación del digimon. " + ex.getMessage());
+
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
+
+    }
+    
+    public void verDigimonsUsuario(String usu){
+        Connection con = null;
+        System.out.println(usu);
+        try {
+            con = ConexionBDD.getConexion();
+            String consulta = 
+                    "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.NomDigimon=d.NomDigimon WHERE t.NombreUsu='" + usu + "';";
+            //System.out.println(consulta);
+            PreparedStatement ps = con.prepareStatement(consulta);
+            //ps.setString(1, usu);
+            System.out.println(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String NomDigimon = output.getString(1);
+                int Defensa = output.getInt(2);
+                int Ataque = output.getInt(3);
+                String Tipo = output.getString(4);
+                int Nivel = output.getInt(5);
+                String NomEvoluviona = output.getString(6);
+
+                System.out.println("\nNombre: " + NomDigimon + "\nDefensa: " + Defensa + "\nAtaque: " + Ataque + "\nTipo: " + Tipo + "\nNivel: " + Nivel + "\nNombre evolución: " + NomEvoluviona);
+
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
     }
 
     public int getAtaque() {
@@ -212,7 +283,7 @@ public class Digimon {
     public Nivel getNivel() {
         return nivel;
     }
-    
+
     public void pideNivel() {
         int opcion = 0;
         while (opcion < 1 || opcion > 3) {
@@ -232,10 +303,10 @@ public class Digimon {
             }
         }
     }
-    
-    public int numNivel(Nivel n){
+
+    public int numNivel(Nivel n) {
         int numero = 1;
-        switch(n){
+        switch (n) {
             case UNO:
                 numero = 1;
                 break;
@@ -260,6 +331,5 @@ public class Digimon {
     public void setNomEvoluciona(String nomEvoluciona) {
         this.nomEvoluciona = nomEvoluciona;
     }
-
 
 }
