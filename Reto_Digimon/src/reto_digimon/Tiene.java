@@ -112,6 +112,18 @@ public class Tiene {
         }
     }
 
+    
+    static public int pideNumero(String mensaje, int min, int max) {
+        int n;
+        do {
+            n = SLeer1.datoInt(mensaje);
+            if (n < min || n > max) {
+                System.err.println("El dato no es válido, introduce uno válido: ");
+            }
+        } while (n < min || n > max);
+        return n;
+    }
+    
     public static boolean usuarioTieneDigimon(String usu, String digi) {
 
         Connection con = null;
@@ -214,9 +226,80 @@ public class Tiene {
 
             }
 
-        }else{
+        } else {
             asignarDigimon(usu);
         }
+    }
+
+    public void cambiarEquipo(String usu) {
+
+        Connection con = null;
+
+        ArrayList<String> usuDigis = new ArrayList();
+        HashSet<String> usuEquipo = new HashSet();
+
+        SLeer1.limpiar();
+
+        try {
+
+            con = ConexionBDD.getConexion();
+
+            String consulta1 = "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.Nomdigimon=d.Nomdigimon WHERE t.NombreUsu = '" + usu + "';";
+
+            PreparedStatement ps = con.prepareStatement(consulta1);
+            ResultSet output1 = ps.executeQuery(consulta1);
+
+            int contador = 0;
+
+            while (output1.next()) {
+                contador++;
+
+                String nomDigimon = output1.getString(1);
+                usuDigis.add(nomDigimon);
+                int defensa = output1.getInt(2);
+                int ataque = output1.getInt(3);
+                String tipo = output1.getString(4);
+                int nivel = output1.getInt(5);
+                String nomEvoluviona = output1.getString(6);
+
+                System.out.println("\nDigimon: " + contador + "\nNombre: " + nomDigimon + "\nDefensa: " + defensa + "\nAtaque: " + ataque + "\nTipo: " + tipo + "\nNivel: " + nivel + "\nNombre evolución: " + nomEvoluviona);
+            }
+
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        } finally {
+            ConexionBDD.desconectar(con);
+        }
+
+        System.out.println("Selecciona que tres digimons quieres en tu equipo");
+
+        while (usuEquipo.size() < 3) {
+            int numDigi = pideNumero("\nIntroduce un numero de digimon: ", 1, usuDigis.size());
+            usuEquipo.add(usuDigis.get(numDigi - 1));
+        }
+        try {
+            con = ConexionBDD.getConexion();
+
+            String consulta = "UPDATE Tiene SET Equipo = \"No\" WHERE NombreUsu = '" + usu + "' AND Equipo = \"Si\" ;";
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ps.executeUpdate();
+
+            for (String nomDigi : usuEquipo) {
+                String consulta2 = "UPDATE Tiene SET Equipo = \"Si\" WHERE NombreUsu = '" + usu + "' AND NomDigimon = '" + nomDigi + "';";
+                ps = con.prepareStatement(consulta2);
+                ps.executeUpdate();
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
+
     }
 
     public String getNombreUsu() {
