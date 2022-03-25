@@ -21,32 +21,32 @@ import reto_digimon.Usuario;
  * @author Alvaro
  */
 public class Menu {
-    
+
     private static String nombreUsu;
 
     public static boolean login() {
-        
+
         Usuario u1 = new Usuario();
         boolean logeado = false;
-        
+
         String usuario;
         String contrasena;
 
         SLeer1.limpiar();
         usuario = SLeer1.datoString("Introduzca su usuario: ");
         contrasena = SLeer1.datoString("Introduzca su contraseña: ");
-        
-        if(!(u1.existeRegistrado(usuario, contrasena))){
-            
+
+        if (!(u1.existeRegistrado(usuario, contrasena))) {
+
             System.out.println("\n\tUsuario y/o contraseña incorrectos.");
             System.out.println("");
-            
-        }else{
-            
+
+        } else {
+
             nombreUsu = usuario;
             logeado = true;
         }
-        
+
         return logeado;
     }
 
@@ -63,11 +63,40 @@ public class Menu {
         }
     }
 
+    public static void restablecerBD() {
+
+        Connection con = null;
+
+        try {
+
+            con = ConexionBDD.getConexion();
+            String consulta1 = "DELETE FROM Tiene";
+            String consulta2 = "DELETE FROM Usuario";
+            String consulta3 = "DELETE FROM Digimon";
+            PreparedStatement ps = con.prepareStatement(consulta1);
+            ps.execute();
+            
+            ps = con.prepareStatement(consulta2);
+            ps.execute();
+            
+            ps = con.prepareStatement(consulta3);
+            ps.execute();
+            
+            System.out.println("\nSe han borrado los datos exitosamente.");
+
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        } finally {
+            ConexionBDD.desconectar(con);
+        }
+
+    }
+
     public static void menuGeneral() {
 
         Usuario u1 = new Usuario();
         int opcion;
-        
+
         do {
             System.out.println("");
             System.out.println("----MENÚ GENERAL----");
@@ -80,13 +109,13 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
-                    if(login()){//joel
+                    if (login()) {//joel
                         administrador();
                     }
                     break;
 
                 case 2:
-                    if(login()){//joel
+                    if (login()) {//joel
                         usuarioComun();
                     }
                     break;
@@ -94,7 +123,7 @@ public class Menu {
                 case 3:
                     u1.creaUsuario();//usuario
                     break;
-                    
+
                 case 4:
                     System.out.println("\nSaliendo del DigiJuego");
                     break;
@@ -110,17 +139,17 @@ public class Menu {
     }
 
     public static void usuarioComun() {
-        
+
         Tiene t1 = new Tiene();
         int opcion;
-        
+
         do {
             System.out.println("\n----MENÚ USUARIO----");
             System.out.println("1.Ver equipo.");
             System.out.println("2.Iniciar partida.");
             System.out.println("3.Cerrar sesión.");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
-            
+
             switch (opcion) {
 
                 case 1:
@@ -148,17 +177,16 @@ public class Menu {
 
         int opcion;
         Digimon d = new Digimon();
-        
+
         do {
             System.out.println("\n----MENÚ ADMINISTRADOR----");
-            System.out.println("1.Busca un usuario: ");
-            System.out.println("2.Crea un Digimon: ");
-            System.out.println("3.Buscar Digimons: ");
+            System.out.println("1.Crear un Digimon: ");
+            System.out.println("2.Ver los Digimon: ");
+            System.out.println("3.Restablecer Base de Datos: ");
             System.out.println("4.Cerrar sesion: ");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
             switch (opcion) {
 
-         
                 case 1:
                     d.creaDigimon();//digimon
                     break;
@@ -166,10 +194,10 @@ public class Menu {
                 case 2:
                     verDigimon();//digimon, select * 
                     break;
-                    
+
                 case 3:
-                      // DefinirDigievolucion(); digimon
-                       break;
+                    restablecerBD();
+                    break;
 
                 case 4:
                     break;
