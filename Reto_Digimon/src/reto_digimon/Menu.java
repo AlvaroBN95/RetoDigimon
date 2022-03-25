@@ -3,10 +3,6 @@ package reto_digimon;
 import Sleer1.SLeer1;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
-import reto_digimon.ConexionBDD.*;
 import reto_digimon.Tiene;
 import reto_digimon.Usuario;
 
@@ -62,13 +58,13 @@ public class Menu {
             String consulta3 = "DELETE FROM Digimon";
             PreparedStatement ps = con.prepareStatement(consulta1);
             ps.execute();
-            
+
             ps = con.prepareStatement(consulta2);
             ps.execute();
-            
+
             ps = con.prepareStatement(consulta3);
             ps.execute();
-            
+
             System.out.println("\nSe han borrado los datos exitosamente.");
 
         } catch (Exception ex) {
@@ -86,11 +82,12 @@ public class Menu {
 
         do {
             System.out.println("");
-            System.out.println("----MENÚ GENERAL----");
-            System.out.println("1.Iniciar como administrador: ");
-            System.out.println("2.Iniciar como usuario: ");
-            System.out.println("3.Crear Usuario: ");
-            System.out.println("4.Salir del Digijuego");
+            System.out.println("|----------MENÚ GENERAL----------|");
+            System.out.println("|1.Iniciar como administrador:   |");
+            System.out.println("|2.Iniciar como usuario:         |");
+            System.out.println("|3.Crear Usuario:                |");
+            System.out.println("|4.Salir del Digijuego.          |");
+              System.out.println("|--------------------------------|");
             opcion = SLeer1.datoInt("Elige una opcion: ");
 
             switch (opcion) {
@@ -126,15 +123,17 @@ public class Menu {
     }
 
     public static void usuarioComun() {
-
+        Usuario u = new Usuario();
         Tiene t1 = new Tiene();
         int opcion;
 
         do {
-            System.out.println("\n----MENÚ USUARIO----");
-            System.out.println("1.Ver equipo.");
-            System.out.println("2.Iniciar partida.");
-            System.out.println("3.Cerrar sesión.");
+            System.out.println("\n|----------MENÚ USUARIO-----------|");
+            System.out.println("|1.Ver equipo.                    |");
+            System.out.println("|2.Mira tu perfil de usuario.     |");
+            System.out.println("|3.Ver todos los usuarios creados.|");
+            System.out.println("|4.Cerrar sesion.                 |");
+            System.out.println("|---------------------------------|");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
 
             switch (opcion) {
@@ -144,10 +143,14 @@ public class Menu {
                     break;
 
                 case 2:
-                    
+                    u.verUsuario(nombreUsu);
                     break;
 
                 case 3:
+                    u.verUsuarios();
+                    break;
+
+                case 4:
                     break;
 
                 default:
@@ -156,7 +159,7 @@ public class Menu {
                     break;
 
             }
-        } while (opcion >= 1 && opcion <= 2);
+        } while (opcion >= 1 && opcion <= 3);
 
     }
 
@@ -166,11 +169,12 @@ public class Menu {
         Digimon d = new Digimon();
 
         do {
-            System.out.println("\n----MENÚ ADMINISTRADOR----");
-            System.out.println("1.Crear un Digimon: ");
-            System.out.println("2.Ver los Digimon: ");
-            System.out.println("3.Restablecer Base de Datos: ");
-            System.out.println("4.Cerrar sesion: ");
+            System.out.println("\n|---------MENÚ ADMINISTRADOR----------|");
+            System.out.println("|1.Crear un Digimon:                  |");
+            System.out.println("|2.Ver los Digimon:                   |");
+            System.out.println("|3.Restablecer Base de Datos:         |");
+            System.out.println("|4.Cerrar sesion:                     |");
+            System.out.println("|-------------------------------------|");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
             switch (opcion) {
 
@@ -202,7 +206,5 @@ public class Menu {
         menuGeneral();
 
     }
-
-    
 
 }
