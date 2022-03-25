@@ -10,7 +10,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashSet;
-import static reto_digimon.ConexionBDD.*;
 
 /**
  *
@@ -65,7 +64,7 @@ public class Digimon {
         HashSet<String> nombresResult = new HashSet();
         int tamHash = 0;
         boolean existe = false;
-       
+
         try {
 
             con = ConexionBDD.getConexion();
@@ -118,8 +117,6 @@ public class Digimon {
             nomDigimon = nombre;
             defensa = defen;
             ataque = ataq;
-            String prueba = tipo.toString();
-            System.out.println(prueba);
 
             try {
                 con = ConexionBDD.getConexion();
@@ -182,16 +179,14 @@ public class Digimon {
         }
 
     }
-    
-    public void verDigimonsUsuario(String usu){
+
+    public void verDigimonsUsuario(String usu) {
         Connection con = null;
-        System.out.println(usu);
         try {
             con = ConexionBDD.getConexion();
-            String consulta = 
-                    "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.NomDigimon=d.NomDigimon WHERE t.NombreUsu='" + usu + "';";         
+            String consulta
+                    = "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.NomDigimon=d.NomDigimon WHERE t.NombreUsu='" + usu + "';";
             PreparedStatement ps = con.prepareStatement(consulta);
-            System.out.println(consulta);
             ResultSet output = ps.executeQuery(consulta);
 
             while (output.next()) {

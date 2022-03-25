@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Random;
-import static reto_digimon.ConexionBDD.*;
 
 /**
  *
@@ -77,8 +76,8 @@ public class Tiene {
             ArrayList<String> completar = new ArrayList();
 
             String consulta = ("Select NomDigimon FROM Digimon");
-            PreparedStatement ps1 = con.prepareStatement(consulta);
-            ResultSet consu = ps1.executeQuery(consulta);
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ResultSet consu = ps.executeQuery(consulta);
 
             while (consu.next()) {
 
