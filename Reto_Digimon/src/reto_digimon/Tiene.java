@@ -32,15 +32,16 @@ public class Tiene {
 
     }
 
-    public void verEquipo(String NombreUsuario) {
+    public void verEquipo(String nombreUsuario) {
         
         Connection con = null;
         
         try {
 
             con = ConexionBDD.getConexion();
-            String consulta = ("SELECT ti.NomDigimon, di.Defensa, di.Ataque, di.Tipo, di.Nivel, di.NomEvoluviona FROM Tiene ti JOIN Digimon di ON ti.Nomdigimon=di.Nomdigimon WHERE Equipo =\"Si\";");
+            String consulta = ("SELECT ti.NomDigimon, di.Defensa, di.Ataque, di.Tipo, di.Nivel, di.NomEvoluviona FROM Tiene ti JOIN Digimon di ON ti.Nomdigimon=di.Nomdigimon WHERE Equipo =\"Si\" AND nombreUsu=?;");
             PreparedStatement ps = con.prepareStatement(consulta);
+            ps.setString(1,nombreUsuario);
             ResultSet output = ps.executeQuery(consulta);
 
             int contador = 0;
@@ -54,9 +55,9 @@ public class Tiene {
                 String Tipo = output.getString(4);
                 int Nivel = output.getInt(5);
                 String NomEvoluviona = output.getString(6);
-
+                   
                 System.out.println("\nDigimon: " + contador + "\nNombre: " + NomDigimon + "\nDefensa: " + Defensa + "\nAtaque: " + Ataque + "\nTipo: " + Tipo + "\nNivel: " + Nivel + "\nNombre evolución: " + NomEvoluviona);
-
+                   
             }
 
         } catch (Exception ex) {
