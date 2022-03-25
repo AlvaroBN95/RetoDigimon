@@ -35,9 +35,7 @@ public class Tiene {
     }
 
     public void verEquipo(String NombreUsuario) {
-
         Connection con = null;
-
         try {
 
             con = ConexionBDD.getConexion();
@@ -73,9 +71,9 @@ public class Tiene {
     }
 
     public void asignarDigimons(String Usuario) {
-
+        Connection con = null;
         try {
-            Connection con = ConexionBDD.getConexion();
+            con = ConexionBDD.getConexion();
             ArrayList<String> completar = new ArrayList();
 
             String consulta = ("Select NomDigimon FROM Digimon");
@@ -84,15 +82,14 @@ public class Tiene {
 
             while (consu.next()) {
 
-                //int ncontar = Integer.parseInt(contar);
                 String nombres = consu.getString(1);
 
                 completar.add(nombres);
-                System.out.println(nombres);
+
             }
             Random metodoRandomizador = new Random();
 
-            for (int i = 0; i < completar.size(); i++) {
+            for (int i = 0; i < 3; i++) {
 
                 int randomizarDigimons = metodoRandomizador.nextInt(completar.size());
                 String digimonAleatorio = completar.get(randomizarDigimons);
@@ -101,11 +98,16 @@ public class Tiene {
                 PreparedStatement anidar = con.prepareStatement(insertar);
                 anidar.executeUpdate();
 
+                completar.remove(randomizarDigimons);
+
             }
 
         } catch (Exception ex) {
 
-            System.out.println("Se ha producido un error a la hora de insertar datos." + ex);
+            System.out.println("Se ha producido un error a la hora de insertar datos." + ex.getMessage());
+        } finally {
+            ConexionBDD.desconectar(con);
+
         }
     }
 
