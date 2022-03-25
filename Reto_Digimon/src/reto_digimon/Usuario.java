@@ -86,7 +86,7 @@ public class Usuario {
                     System.out.println("\nEl usuario " + nombreUsu + " se ha creado existosamente.");
                     nombre = "0";
                     
-                    t1.asignarDigimons();
+                    t1.asignarDigimons(nombreUsu);
 
                 } catch (Exception ex) {
 
@@ -110,8 +110,9 @@ public class Usuario {
         Connection con = null;
 
         try {
-
+            System.out.println("Hasta aqui bien");
             con = ConexionBDD.getConexion();
+            System.out.println("hasta aqui tambien");
             String consulta = ("SELECT NombreUsu FROM Usuario");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);

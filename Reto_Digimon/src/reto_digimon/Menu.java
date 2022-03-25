@@ -70,8 +70,8 @@ public class Menu {
         try {
 
             con = ConexionBDD.getConexion();
-            String consulta2 = "DELETE FROM Tiene";
-            String consulta1 = "DELETE FROM Usuario";
+            String consulta1 = "DELETE FROM Tiene";
+            String consulta2 = "DELETE FROM Usuario";
             String consulta3 = "DELETE FROM Digimon";
             PreparedStatement ps = con.prepareStatement(consulta1);
             ps.execute();
