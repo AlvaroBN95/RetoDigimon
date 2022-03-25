@@ -10,7 +10,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Random;
-import static reto_digimon.ConexionBDD.*;
 
 /**
  *
@@ -34,15 +33,16 @@ public class Tiene {
 
     }
 
-    public void verEquipo(String NombreUsuario) {
+    public void verEquipo(String nombreUsuario) {
         Connection con = null;
         try {
 
             con = ConexionBDD.getConexion();
-            String consulta = ("SELECT ti.NomDigimon, di.Defensa, di.Ataque, di.Tipo, di.Nivel, di.NomEvoluviona FROM Tiene ti JOIN Digimon di ON ti.Nomdigimon=di.Nomdigimon WHERE Equipo =\"Si\";");
+            String consulta = ("SELECT ti.NomDigimon, di.Defensa, di.Ataque, di.Tipo, di.Nivel, di.NomEvoluciona FROM Tiene ti JOIN Digimon di ON ti.Nomdigimon=di.Nomdigimon WHERE Equipo ='"+"Si"+"' AND NombreUsu = '" + nombreUsuario + "';");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
 
+            
             int contador = 0;
 
             while (output.next()) {
