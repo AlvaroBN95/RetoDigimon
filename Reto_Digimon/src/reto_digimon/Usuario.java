@@ -185,6 +185,38 @@ public class Usuario {
     
         return existe;
     }
+    
+    public void verUsuario(String usu){
+        Connection con = null;
+        try {
+            con = ConexionBDD.getConexion();
+            String consulta = 
+                    "SELECT NombreUsu, Pass, PJugadas, PartidasGan, CantTokens FROM Usuario WHERE NombreUsu='" + usu + "';";
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String nombre = output.getString(1);
+                String pasword = output.getString(2);
+                int jugadas = output.getInt(3);
+                int ganadas = output.getInt(4);
+                int tokens = output.getInt(5);
+
+                System.out.println("\nNombre: " + nombre + "\nContraseña: " + pasword + "\nPartidas jugadas: " + jugadas + "\nPartidas ganadas: " + ganadas + "\nTokens disponibles: " + tokens);
+
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
+    }
 
     public String getNombreUsu() {
         return nombreUsu;
