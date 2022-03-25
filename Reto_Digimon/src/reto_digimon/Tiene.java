@@ -12,8 +12,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
-import static reto_digimon.Digimon.existeDigimon;
-import static reto_digimon.Digimon.pideNumero;
 
 /**
  *
@@ -172,8 +170,8 @@ public class Tiene {
 
             while (output.next()) {
 
-                String nombreDigimon = output.getString(1);
-                digimons.add(nombreDigimon);
+                String nombrDigimon = output.getString(1);
+                digimons.add(nombrDigimon);
             }
 
         } catch (Exception ex) {
@@ -202,8 +200,8 @@ public class Tiene {
 
             while (output.next()) {
 
-                String nombreDigimon = output.getString(1);
-                digimons.add(nombreDigimon);
+                String nombrDigimon = output.getString(1);
+                digimons.add(nombrDigimon);
             }
 
         } catch (Exception ex) {
