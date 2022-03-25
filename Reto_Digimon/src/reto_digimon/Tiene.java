@@ -152,39 +152,6 @@ public class Tiene {
         return existe;
     }
 
-    public ArrayList arrayDigimons(String tabla, String where) {
-        Connection con = null;
-        ArrayList<String> digimons = new ArrayList();
-        SLeer1.limpiar();
-
-        try {
-
-            con = ConexionBDD.getConexion();
-            String consulta = ("SELECT NomDigimon FROM ? WHERE ?;");
-            PreparedStatement ps = con.prepareStatement(consulta);
-
-            ps.setString(1, tabla);
-            ps.setString(2, where);
-
-            ResultSet output = ps.executeQuery(consulta);
-
-            while (output.next()) {
-
-                String nombrDigimon = output.getString(1);
-                digimons.add(nombrDigimon);
-            }
-
-        } catch (Exception ex) {
-
-            System.err.println(ex.getMessage());
-        } finally {
-
-            ConexionBDD.desconectar(con);
-
-        }
-        return digimons;
-    }
-
     public void asignarDigimon(String usu) {
 
         Connection con = null;
