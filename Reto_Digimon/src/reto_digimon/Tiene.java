@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -109,6 +110,46 @@ public class Tiene {
             ConexionBDD.desconectar(con);
 
         }
+    }
+    
+    public static boolean usuarioTieneDigimon(String usu, String digi) {
+
+        Connection con = null;
+        HashSet<String> tiene = new HashSet();
+        int tamHash = 0;
+        boolean existe = false;
+       
+        try {
+
+            con = ConexionBDD.getConexion();
+            String consulta = ("SELECT NomDigimon FROM Tiene WHERE NombreUsu='" + usu + "';");
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String nombreDigimon = output.getString(1);
+                tiene.add(nombreDigimon);
+            }
+
+            tamHash = tiene.size();
+            tiene.add(digi);
+
+            if (tamHash == tiene.size()) {
+
+                existe = true;
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
+
+        return existe;
     }
 
     public String getNombreUsu() {
