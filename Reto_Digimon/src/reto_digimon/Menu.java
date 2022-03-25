@@ -169,12 +169,12 @@ public class Menu {
         Digimon d = new Digimon();
 
         do {
-            System.out.println("\n|---------MENÚ ADMINISTRADOR----------|");
-            System.out.println("|1.Crear un Digimon:                  |");
-            System.out.println("|2.Ver los Digimon:                   |");
-            System.out.println("|3.Restablecer Base de Datos:         |");
-            System.out.println("|4.Cerrar sesion:                     |");
-            System.out.println("|-------------------------------------|");
+            System.out.println("\n|-------MENÚ ADMINISTRADOR--------|");
+            System.out.println("|1.Crear un Digimon:              |");
+            System.out.println("|2.Ver los Digimon:               |");
+            System.out.println("|3.Restablecer Base de Datos:     |");
+            System.out.println("|4.Cerrar sesion:                 |");
+            System.out.println("|---------------------------------|");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
             switch (opcion) {
 
