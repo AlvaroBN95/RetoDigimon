@@ -5,12 +5,15 @@
  */
 package reto_digimon;
 
+import Sleer1.SLeer1;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
+import static reto_digimon.Digimon.existeDigimon;
+import static reto_digimon.Digimon.pideNumero;
 
 /**
  *
@@ -39,11 +42,10 @@ public class Tiene {
         try {
 
             con = ConexionBDD.getConexion();
-            String consulta = ("SELECT ti.NomDigimon, di.Defensa, di.Ataque, di.Tipo, di.Nivel, di.NomEvoluviona FROM Tiene ti JOIN Digimon di ON ti.Nomdigimon=di.Nomdigimon WHERE Equipo ='"+"Si"+"' AND NombreUsu = '" + nombreUsuario + "';");
+            String consulta = ("SELECT ti.NomDigimon, di.Defensa, di.Ataque, di.Tipo, di.Nivel, di.NomEvoluviona FROM Tiene ti JOIN Digimon di ON ti.Nomdigimon=di.Nomdigimon WHERE Equipo ='" + "Si" + "' AND NombreUsu = '" + nombreUsuario + "';");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
 
-            
             int contador = 0;
 
             while (output.next()) {
@@ -111,14 +113,14 @@ public class Tiene {
 
         }
     }
-    
+
     public static boolean usuarioTieneDigimon(String usu, String digi) {
 
         Connection con = null;
         HashSet<String> tiene = new HashSet();
         int tamHash = 0;
         boolean existe = false;
-       
+
         try {
 
             con = ConexionBDD.getConexion();
@@ -150,6 +152,106 @@ public class Tiene {
         }
 
         return existe;
+    }
+
+    public ArrayList arrayDigimons(String tabla, String where) {
+        Connection con = null;
+        ArrayList<String> digimons = new ArrayList();
+        SLeer1.limpiar();
+
+        try {
+
+            con = ConexionBDD.getConexion();
+            String consulta = ("SELECT NomDigimon FROM ? WHERE ?;");
+            PreparedStatement ps = con.prepareStatement(consulta);
+
+            ps.setString(1, tabla);
+            ps.setString(2, where);
+
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String nombreDigimon = output.getString(1);
+                digimons.add(nombreDigimon);
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
+        return digimons;
+    }
+
+    public void asignarDigimon(String usu) {
+
+        Connection con = null;
+        ArrayList<String> digimons = new ArrayList();
+        SLeer1.limpiar();
+
+        try {
+
+            con = ConexionBDD.getConexion();
+            String consulta = ("SELECT NomDigimon FROM Digimon;");
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String nombreDigimon = output.getString(1);
+                digimons.add(nombreDigimon);
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
+
+        Random digimonAleatorio = new Random();
+
+        int digi = digimonAleatorio.nextInt(digimons.size());
+
+        String nomDigi = digimons.get(digi);
+
+        if (!usuarioTieneDigimon(usu, nomDigi)) {
+
+            nombreUsu = usu;
+            nombreDigimon = nomDigi;
+
+            try {
+                con = ConexionBDD.getConexion();
+                String consulta = "INSERT INTO Tiene (NombreUsu, NomDigimon, Equipo) VALUES(?, ?, ?)";
+                PreparedStatement ps = con.prepareStatement(consulta);
+
+                ps.setString(1, usu);
+                ps.setString(2, nomDigi);
+                ps.setString(3, "No");
+
+                ps.executeUpdate();
+
+                System.out.println("\nEl digimon " + nomDigi + " se ha añadido a tu colección.");
+
+            } catch (Exception ex) {
+
+                System.err.println(ex.getMessage());
+
+            } finally {
+
+                ConexionBDD.desconectar(con);
+
+            }
+
+        }else{
+            asignarDigimon(usu);
+        }
     }
 
     public String getNombreUsu() {
