@@ -218,45 +218,60 @@ public class Digimon {
         Connection con = null;
 
         try {
-            verDigimons();
+
             SLeer1.limpiar();
             con = ConexionBDD.getConexion();
             int opcion = 0;
-            do {
+            verDigimons();
 
-                System.out.println("\n");
-                System.out.println("1.Defensa.");
-                System.out.println("2.Ataque.");
-                System.out.println("3.Salir de la modificacion.");
-                opcion = SLeer1.datoInt("Escoja el atributo a modificar. ");
-                nomDigimon = SLeer1.datoString("Escoja el digimon a modificar ");
+            nomDigimon = SLeer1.datoString("Escoja el digimon a modificar ");
+            if (!existeDigimon(nomDigimon)) {
+                System.err.println("El Digimon no esta en la tabla. ");
+                
+            } else {
 
-                switch (opcion) {
+                do {
 
-                    case 1:
-                        int defensa = SLeer1.datoInt("Actualice su defensa: ");
-                        SLeer1.limpiar();
-                        String consulta = "UPDATE Digimon SET defensa= ' " + defensa + "' WHERE nomDigimon='" + nomDigimon + "'";
-                        PreparedStatement ps = con.prepareStatement(consulta);
-                        ps.executeUpdate(consulta);
-                        break;
+                    System.out.println("\n");
+                    System.out.println("1.Defensa.");
+                    System.out.println("2.Ataque.");
+                    System.out.println("3.Elegir Digimon.");
+                    System.out.println("4.Salir de la modificacion");
 
-                    case 2:
-                        int ataque = SLeer1.datoInt("Actualice su ataque: ");
-                        SLeer1.limpiar();
-                        String consulta1 = "UPDATE Digimon SET ataque = ' " + ataque + "' WHERE nomDigimon='" + nomDigimon + "'";
-                        PreparedStatement ps1 = con.prepareStatement(consulta1);
-                        ps1.executeUpdate(consulta1);
-                        break;
+                    opcion = SLeer1.datoInt("Escoja el atributo a modificar. ");
 
-                    case 3:
-                        break;
+                    switch (opcion) {
 
-                    default:
-                        System.out.println("Escoja una opcion valida: ");
-                        break;
-                }
-            } while (opcion >= 1 && opcion <= 2);
+                        case 1:
+                            int defensa = SLeer1.datoInt("Actualice su defensa: ");
+                            SLeer1.limpiar();
+                            String consulta = "UPDATE Digimon SET defensa= ' " + defensa + "' WHERE nomDigimon='" + nomDigimon + "'";
+                            PreparedStatement ps = con.prepareStatement(consulta);
+                            ps.executeUpdate(consulta);
+                            break;
+
+                        case 2:
+                            int ataque = SLeer1.datoInt("Actualice su ataque: ");
+                            SLeer1.limpiar();
+                            String consulta1 = "UPDATE Digimon SET ataque = ' " + ataque + "' WHERE nomDigimon='" + nomDigimon + "'";
+                            PreparedStatement ps1 = con.prepareStatement(consulta1);
+                            ps1.executeUpdate(consulta1);
+                            break;
+
+                        case 3:
+                            modificarDigimon();
+                            break;
+
+                        case 4:
+                            break;
+
+                        default:
+                            System.err.println("Escoja una opcion valida: ");
+                            opcion=1;
+                            break;
+                    }
+                } while (opcion >= 1 && opcion <= 3);
+            }
 
         } catch (Exception ex) {
             System.err.println(ex.getMessage());

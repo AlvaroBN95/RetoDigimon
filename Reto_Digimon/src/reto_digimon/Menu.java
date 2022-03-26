@@ -179,7 +179,6 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
-                    d.modificarDigimon();
                     d.creaDigimon();
                     break;
                 case 2:
