@@ -87,7 +87,7 @@ public class Menu {
             System.out.println("|2.Iniciar como usuario:         |");
             System.out.println("|3.Crear Usuario:                |");
             System.out.println("|4.Salir del Digijuego.          |");
-              System.out.println("|--------------------------------|");
+            System.out.println("|--------------------------------|");
             opcion = SLeer1.datoInt("Elige una opcion: ");
 
             switch (opcion) {
@@ -179,8 +179,9 @@ public class Menu {
             switch (opcion) {
 
                 case 1:
+                    d.modificarDigimon();
                     d.creaDigimon();
-
+                    break;
                 case 2:
                     d.verDigimons();
                     break;

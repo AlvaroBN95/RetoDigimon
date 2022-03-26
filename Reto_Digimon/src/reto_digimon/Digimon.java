@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.HashSet;
+
 /**
  *
  * @author usuario
@@ -63,7 +64,7 @@ public class Digimon {
         HashSet<String> nombresResult = new HashSet();
         int tamHash = 0;
         boolean existe = false;
-       
+
         try {
 
             con = ConexionBDD.getConexion();
@@ -87,7 +88,7 @@ public class Digimon {
 
         } catch (Exception ex) {
 
-            System.err.println("\nError en existeDigimon.");
+            System.err.println(ex.getMessage());
         } finally {
 
             ConexionBDD.desconectar(con);
@@ -116,7 +117,6 @@ public class Digimon {
             nomDigimon = nombre;
             defensa = defen;
             ataque = ataq;
-           
 
             try {
                 con = ConexionBDD.getConexion();
@@ -134,7 +134,7 @@ public class Digimon {
 
             } catch (Exception ex) {
 
-                System.err.println("Se ha producido un error en la creación del digimon. " + ex.getMessage());
+                System.err.println(ex.getMessage());
 
             } finally {
 
@@ -170,7 +170,7 @@ public class Digimon {
 
         } catch (Exception ex) {
 
-            System.err.println("Se ha producido un error en la creación del digimon. " + ex.getMessage());
+            System.err.println(ex.getMessage());
 
         } finally {
 
@@ -179,14 +179,14 @@ public class Digimon {
         }
 
     }
-    
-    public void verDigimonsUsuario(String usu){
+
+    public void verDigimonsUsuario(String usu) {
         Connection con = null;
-      
+
         try {
             con = ConexionBDD.getConexion();
-            String consulta = 
-                    "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.NomDigimon=d.NomDigimon WHERE t.NombreUsu='" + usu + "';";         
+            String consulta
+                    = "SELECT d.NomDigimon, d.Defensa, d.Ataque, d.Tipo, d.Nivel, d.NomEvoluviona FROM Tiene t JOIN Digimon d ON t.NomDigimon=d.NomDigimon WHERE t.NombreUsu='" + usu + "';";
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
 
@@ -212,6 +212,56 @@ public class Digimon {
             ConexionBDD.desconectar(con);
 
         }
+    }
+
+    public void modificarDigimon() {
+        Connection con = null;
+
+        try {
+            verDigimons();
+            SLeer1.limpiar();
+            con = ConexionBDD.getConexion();
+            int opcion = 0;
+            do {
+
+                System.out.println("\n");
+                System.out.println("1.Defensa.");
+                System.out.println("2.Ataque.");
+                System.out.println("3.Salir de la modificacion.");
+                opcion = SLeer1.datoInt("Escoja el atributo a modificar. ");
+                nomDigimon = SLeer1.datoString("Escoja el digimon a modificar ");
+
+                switch (opcion) {
+
+                    case 1:
+                        int defensa = SLeer1.datoInt("Actualice su defensa: ");
+                        SLeer1.limpiar();
+                        String consulta = "UPDATE Digimon SET defensa= ' " + defensa + "' WHERE nomDigimon='" + nomDigimon + "'";
+                        PreparedStatement ps = con.prepareStatement(consulta);
+                        ps.executeUpdate(consulta);
+                        break;
+
+                    case 2:
+                        int ataque = SLeer1.datoInt("Actualice su ataque: ");
+                        SLeer1.limpiar();
+                        String consulta1 = "UPDATE Digimon SET ataque = ' " + ataque + "' WHERE nomDigimon='" + nomDigimon + "'";
+                        PreparedStatement ps1 = con.prepareStatement(consulta1);
+                        ps1.executeUpdate(consulta1);
+                        break;
+
+                    case 3:
+                        break;
+
+                    default:
+                        System.out.println("Escoja una opcion valida: ");
+                        break;
+                }
+            } while (opcion >= 1 && opcion <= 2);
+
+        } catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+
     }
 
     public int getAtaque() {
