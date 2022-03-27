@@ -9,6 +9,7 @@ import Sleer1.SLeer1;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -56,6 +57,46 @@ public class Digimon {
             }
         } while (n < min);
         return n;
+    }
+
+    public static void establecerEvolucion() {
+
+        Connection con = null;
+        ArrayList<String> nombreDigi = new ArrayList();
+
+        try {
+
+            con = ConexionBDD.getConexion();
+            String consulta = ("SELECT NomDigimon FROM Digimon");
+            PreparedStatement ps = con.prepareStatement(consulta);
+            ResultSet output = ps.executeQuery(consulta);
+
+            while (output.next()) {
+
+                String nomDigi = output.getString(1);
+                nombreDigi.add(nomDigi);
+            }
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
+        }
+
+        for (int i = 0; i < nombreDigi.size(); i++) {
+
+            System.out.println(i+1 + ". " + nombreDigi.get(i));
+            
+        }
+        
+        String eleccion = SLeer1.datoString("Elige el Digimon al que quieras establecer su Digievolución: ");
+        
+        
+        
     }
 
     public static boolean existeDigimon(String nombre) {

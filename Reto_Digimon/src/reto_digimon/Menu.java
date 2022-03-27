@@ -172,8 +172,9 @@ public class Menu {
             System.out.println("\n|-------MENÚ ADMINISTRADOR--------|");
             System.out.println("|1.Crear un Digimon:              |");
             System.out.println("|2.Ver los Digimon:               |");
-            System.out.println("|3.Restablecer Base de Datos:     |");
-            System.out.println("|4.Cerrar sesion:                 |");
+            System.out.println("|3.Establecer digievolucion       |");
+            System.out.println("|4.Restablecer Base de Datos:     |");
+            System.out.println("|5.Cerrar sesion:                 |");
             System.out.println("|---------------------------------|");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
             switch (opcion) {
@@ -186,10 +187,14 @@ public class Menu {
                     break;
 
                 case 3:
-                    restablecerBD();
+                    d.establecerEvolucion();
                     break;
 
                 case 4:
+                    restablecerBD();
+                    break;
+                    
+                case 5:
                     break;
 
                 default:
