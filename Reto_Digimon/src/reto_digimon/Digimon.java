@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 /**
@@ -59,22 +60,27 @@ public class Digimon {
         return n;
     }
 
-    public static void establecerEvolucion() {
+    public void establecerEvolucion() {
 
         Connection con = null;
-        ArrayList<String> nombreDigi = new ArrayList();
+        HashMap<String, Digimon> nombreDigi = new HashMap<String, Digimon>();
+        Digimon d1 = new Digimon();
+        Digimon d2 = new Digimon();
 
         try {
 
             con = ConexionBDD.getConexion();
-            String consulta = ("SELECT NomDigimon FROM Digimon");
+            String consulta = ("SELECT NomDigimon, Nivel, Tipo, Ataque, Defensa FROM Digimon");
             PreparedStatement ps = con.prepareStatement(consulta);
             ResultSet output = ps.executeQuery(consulta);
 
             while (output.next()) {
 
-                String nomDigi = output.getString(1);
-                nombreDigi.add(nomDigi);
+                Tipo tipo = Tipo.valueOf((output.getString(3)).toUpperCase());
+                Nivel nivel = intToNivel(output.getInt(2));
+                d1 = new Digimon(output.getString(1), output.getInt(5), output.getInt(4), tipo, nivel);
+                
+                nombreDigi.put(d1.getNomDigimon(), d1);
             }
 
         } catch (Exception ex) {
@@ -87,19 +93,91 @@ public class Digimon {
 
         }
 
-        for (int i = 0; i < nombreDigi.size(); i++) {
+        verDigimons();
 
-            System.out.println(i+1 + ". " + nombreDigi.get(i));
+        System.out.println();
+        System.out.println("-----NORMAS DE LAS DIGIEVOLUCIONES-----");
+        System.out.println("1.- Los Digimons de nivel 3 NO pueden Digievolucionar más.");
+        System.out.println("2.- La Digievolución debe ser tan solo un nivel superior.");
+        System.out.println("3.- La Digievolución debe ser del mismo tipo.");
+        SLeer1.limpiar();
+        do {
             
+            d1 = pideDigimon("Elige al que quieras establecer su Digievolución(escribe el nombre tal cual): ", nombreDigi, 3);
+            System.out.println();
+            d2 = pideDigimon("Ahora elige la Digievolución(nombre tal cual): ", nombreDigi, numNivel(d1.getNivel()));
+            
+            if(!(d1.getTipo().equals(d2.getTipo()))){
+                System.out.println();
+                System.err.println("\tEl tipo de los dos Digimos seleccionados no es igual.");
+            }
+            
+        } while (!(d1.getTipo().equals(d2.getTipo())));
+
+        try {
+
+            con = ConexionBDD.getConexion();
+            String consulta2 = ("UPDATE Digimon SET NomEvoluviona = '" + d2.getNomDigimon() + "' WHERE NomDigimon = '" + d1.getNomDigimon() + "';");
+            PreparedStatement ps = con.prepareStatement(consulta2);
+            ps.executeUpdate(consulta2);
+
+            System.out.println("\nDigievolución establecida con éxito.");
+
+        } catch (Exception ex) {
+
+            System.err.println(ex.getMessage());
+
+        } finally {
+
+            ConexionBDD.desconectar(con);
+
         }
-        
-        String eleccion = SLeer1.datoString("Elige el Digimon al que quieras establecer su Digievolución: ");
-        
-        
-        
+
     }
 
-    public static boolean existeDigimon(String nombre) {
+    public Digimon pideDigimon(String frase, HashMap<String, Digimon> nombreDigi, int nivel) {
+
+        String nomElegido = "";
+        Digimon digi = null;
+
+        switch (nivel) {
+            case 1:
+            case 2:
+
+                do {
+                    nomElegido = SLeer1.datoString(frase);
+                    digi = nombreDigi.get(nomElegido);
+
+                    if (!(digi.getNivel().equals(intToNivel(nivel + 1)))) {
+
+                        System.err.println("\tError: Debes elegir un Digimon de tan solo un nivel superior.");
+
+                    }
+
+                } while (!(digi.getNivel().equals(intToNivel(nivel + 1))));
+
+                break;
+
+            case 3:
+
+                do {
+                    nomElegido = SLeer1.datoString(frase);
+                    digi = nombreDigi.get(nomElegido);
+                    
+                    if (digi.getNivel().equals(intToNivel(nivel))) {
+
+                        System.err.println("\tError: Debes elegir un Digimon que no sea de nivel 3.");
+
+                    }
+
+                } while (digi.getNivel().equals(intToNivel(nivel)));
+                break;
+        }
+
+        return digi;
+    }
+
+    public boolean existeDigimon(String nombre) {
 
         Connection con = null;
         HashSet<String> nombresResult = new HashSet();
@@ -268,7 +346,7 @@ public class Digimon {
             nomDigimon = SLeer1.datoString("Escoja el digimon a modificar ");
             if (!existeDigimon(nomDigimon)) {
                 System.err.println("El Digimon no esta en la tabla. ");
-                
+
             } else {
 
                 do {
@@ -308,7 +386,7 @@ public class Digimon {
 
                         default:
                             System.err.println("Escoja una opcion valida: ");
-                            opcion=1;
+                            opcion = 1;
                             break;
                     }
                 } while (opcion >= 1 && opcion <= 3);
@@ -418,6 +496,44 @@ public class Digimon {
                 break;
         }
         return numero;
+    }
+    
+    public Nivel intToNivel(int n) {
+        Nivel nivel = Nivel.UNO;
+        switch (n) {
+            case 1:
+                nivel = Nivel.UNO;
+                break;
+            case 2:
+                nivel = Nivel.DOS;
+                break;
+            case 3:
+                nivel = Nivel.TRES;
+                break;
+        }
+        return nivel;
+    }
+    
+    public String tipoToString(Tipo t) {
+        String tipo = "";
+        switch (t) {
+            case VACUNA:
+                tipo = "vacuna";
+                break;
+            case VIRUS:
+                tipo = "virus";
+                break;
+            case ANIMAL:
+                tipo = "animal";
+                break;
+            case PLANTA:
+                tipo = "planta";
+                break;
+            case ELEMENTAL:
+                tipo = "elemental";
+                break;
+        }
+        return tipo;
     }
 
     public void setNivel(Nivel nivel) {
