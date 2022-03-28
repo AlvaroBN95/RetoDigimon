@@ -83,9 +83,9 @@ public class Menu {
         do {
             System.out.println("");
             System.out.println("|----------MENÚ GENERAL----------|");
-            System.out.println("|1.Iniciar como administrador:   |");
-            System.out.println("|2.Iniciar como usuario:         |");
-            System.out.println("|3.Crear Usuario:                |");
+            System.out.println("|1.Iniciar como administrador.   |");
+            System.out.println("|2.Iniciar como usuario.         |");
+            System.out.println("|3.Crear Usuario.                |");
             System.out.println("|4.Salir del Digijuego.          |");
             System.out.println("|--------------------------------|");
             opcion = SLeer1.datoInt("Elige una opcion: ");
@@ -129,28 +129,39 @@ public class Menu {
 
         do {
             System.out.println("\n|----------MENÚ USUARIO-----------|");
-            System.out.println("|1.Ver equipo.                    |");
-            System.out.println("|2.Mira tu perfil de usuario.     |");
-            System.out.println("|3.Ver todos los usuarios creados.|");
-            System.out.println("|4.Cerrar sesion.                 |");
+            System.out.println("|1.Jugar partida.                 |");
+            System.out.println("|2.Ver Digiequipo.                |");
+            System.out.println("|3.Administrar Digiequipo.        |");
+            System.out.println("|4.Mira tu perfil de usuario.     |");
+            System.out.println("|5.Ver todos los usuarios creados.|");
+            System.out.println("|6.Cerrar sesion.                 |");
             System.out.println("|---------------------------------|");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
 
             switch (opcion) {
 
                 case 1:
-                    t1.verEquipo(nombreUsu);
+                    System.out.println("Jugando partida contra user48395_45... VICTORIA!!");
+                    t1.asignarDigimon(nombreUsu);
                     break;
 
                 case 2:
-                    u.verUsuario(nombreUsu);
+                    t1.verEquipo(nombreUsu);
                     break;
 
                 case 3:
-                    u.verUsuarios();
+                    t1.cambiarEquipo(nombreUsu);
                     break;
 
                 case 4:
+                    u.verUsuario(nombreUsu);
+                    break;
+                
+                case 5:
+                    u.verUsuarios();
+                    break;
+                    
+                case 6:
                     break;
 
                 default:
@@ -170,11 +181,12 @@ public class Menu {
 
         do {
             System.out.println("\n|-------MENÚ ADMINISTRADOR--------|");
-            System.out.println("|1.Crear un Digimon:              |");
-            System.out.println("|2.Ver los Digimon:               |");
-            System.out.println("|3.Establecer digievolucion       |");
-            System.out.println("|4.Restablecer Base de Datos:     |");
-            System.out.println("|5.Cerrar sesion:                 |");
+            System.out.println("|1.Crear un Digimon.              |");
+            System.out.println("|2.Ver los Digimon.               |");
+            System.out.println("|3.Establecer digievolucion.      |");
+            System.out.println("|4.Modificar Digimon.             |");
+            System.out.println("|5.Restablecer Base de Datos.     |");
+            System.out.println("|6.Cerrar sesion.                 |");
             System.out.println("|---------------------------------|");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
             switch (opcion) {
@@ -191,10 +203,14 @@ public class Menu {
                     break;
 
                 case 4:
-                    restablecerBD();
+                    d.modificarDigimon();
                     break;
                     
                 case 5:
+                    restablecerBD();
+                    break;
+                    
+                case 6:
                     break;
 
                 default:

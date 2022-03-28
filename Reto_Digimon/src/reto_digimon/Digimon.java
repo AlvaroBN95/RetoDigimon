@@ -372,7 +372,7 @@ public class Digimon {
             int opcion = 0;
             verDigimons();
 
-            nomDigimon = SLeer1.datoString("Escoja el digimon a modificar ");
+            nomDigimon = SLeer1.datoString("Escoja el digimon a modificar: ");
             if (!existeDigimon(nomDigimon)) {
                 System.err.println("El Digimon no esta en la tabla. ");
 
