@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  *
@@ -66,6 +67,7 @@ public class Digimon {
         HashMap<String, Digimon> nombreDigi = new HashMap<String, Digimon>();
         Digimon d1 = new Digimon();
         Digimon d2 = new Digimon();
+        String auxiliar = "0";
 
         try {
 
@@ -79,7 +81,7 @@ public class Digimon {
                 Tipo tipo = Tipo.valueOf((output.getString(3)).toUpperCase());
                 Nivel nivel = intToNivel(output.getInt(2));
                 d1 = new Digimon(output.getString(1), output.getInt(5), output.getInt(4), tipo, nivel);
-                
+
                 nombreDigi.put(d1.getNomDigimon(), d1);
             }
 
@@ -100,19 +102,27 @@ public class Digimon {
         System.out.println("1.- Los Digimons de nivel 3 NO pueden Digievolucionar más.");
         System.out.println("2.- La Digievolución debe ser tan solo un nivel superior.");
         System.out.println("3.- La Digievolución debe ser del mismo tipo.");
+
         SLeer1.limpiar();
-        do {
-            
-            d1 = pideDigimon("Elige al que quieras establecer su Digievolución(escribe el nombre tal cual): ", nombreDigi, 3);
-            System.out.println();
-            d2 = pideDigimon("Ahora elige la Digievolución(nombre tal cual): ", nombreDigi, numNivel(d1.getNivel()));
-            
-            if(!(d1.getTipo().equals(d2.getTipo()))){
+
+        d1 = pideDigimon("Elige al que quieras establecer su Digievolución(escribe el nombre tal cual)(0 para salir): ", nombreDigi, 3, Tipo.VACUNA);
+        auxiliar = d1.getNomDigimon();
+        while (!auxiliar.equals("0")) {
+
+            do {
                 System.out.println();
-                System.err.println("\tEl tipo de los dos Digimos seleccionados no es igual.");
-            }
-            
-        } while (!(d1.getTipo().equals(d2.getTipo())));
+
+                d2 = pideDigimon("Ahora elige la Digievolución(nombre tal cual): ", nombreDigi, numNivel(d1.getNivel()), Tipo.VACUNA);
+
+                if (!(d1.getTipo().equals(d2.getTipo()))) {
+                    System.out.println();
+                    System.err.println("\tEl tipo de los dos Digimons seleccionados no es igual.");
+                    d1 = pideDigimon("Elige al que quieras establecer su Digievolución(escribe el nombre tal cual)(0 para salir): ", nombreDigi, 3, d2.getTipo());
+                }
+
+            } while (!(d1.getTipo().equals(d2.getTipo())));
+            auxiliar = "0";
+        }
 
         try {
 
@@ -121,7 +131,11 @@ public class Digimon {
             PreparedStatement ps = con.prepareStatement(consulta2);
             ps.executeUpdate(consulta2);
 
-            System.out.println("\nDigievolución establecida con éxito.");
+            if (!d1.getNomDigimon().equals("0")) {
+                System.out.println("\nDigievolución establecida con éxito.");
+            } else {
+                System.out.println("\nVolviendo al menú...");
+            }
 
         } catch (Exception ex) {
 
@@ -135,7 +149,7 @@ public class Digimon {
 
     }
 
-    public Digimon pideDigimon(String frase, HashMap<String, Digimon> nombreDigi, int nivel) {
+    public Digimon pideDigimon(String frase, HashMap<String, Digimon> nombreDigi, int nivel, Tipo tipos) {
 
         String nomElegido = "";
         Digimon digi = null;
@@ -148,13 +162,17 @@ public class Digimon {
                     nomElegido = SLeer1.datoString(frase);
                     digi = nombreDigi.get(nomElegido);
 
-                    if (!(digi.getNivel().equals(intToNivel(nivel + 1)))) {
+                    if (digi == null) {
 
-                        System.err.println("\tError: Debes elegir un Digimon de tan solo un nivel superior.");
+                        System.err.println("\tEl nombre elegido no existe.");
+
+                    } else if (!(digi.getNivel().equals(intToNivel(nivel + 1)))) {
+
+                        System.err.println("\tEl digimon debe de ser UN único nivel superior.");
 
                     }
 
-                } while (!(digi.getNivel().equals(intToNivel(nivel + 1))));
+                } while ((digi == null) || (!(digi.getNivel().equals(intToNivel(nivel + 1)))));
 
                 break;
 
@@ -162,15 +180,26 @@ public class Digimon {
 
                 do {
                     nomElegido = SLeer1.datoString(frase);
-                    digi = nombreDigi.get(nomElegido);
-                    
-                    if (digi.getNivel().equals(intToNivel(nivel))) {
 
-                        System.err.println("\tError: Debes elegir un Digimon que no sea de nivel 3.");
+                    if (nomElegido.equals("0")) {
+                        Digimon d = new Digimon("0", 0, 0, tipos, intToNivel(nivel + 1));
+                        digi = d;
+                    } else {
+
+                        digi = nombreDigi.get(nomElegido);
+                    }
+
+                    if (digi == null) {
+
+                        System.err.println("\tEl nombre elegido no existe.");
+
+                    } else if (digi.getNivel().equals(intToNivel(nivel))) {
+
+                        System.err.println("\tEl digimon NO debe ser nivel 3.");
 
                     }
 
-                } while (digi.getNivel().equals(intToNivel(nivel)));
+                } while ((digi == null) || digi.getNivel().equals(intToNivel(nivel)));
                 break;
         }
 
@@ -497,7 +526,7 @@ public class Digimon {
         }
         return numero;
     }
-    
+
     public Nivel intToNivel(int n) {
         Nivel nivel = Nivel.UNO;
         switch (n) {
@@ -513,7 +542,7 @@ public class Digimon {
         }
         return nivel;
     }
-    
+
     public String tipoToString(Tipo t) {
         String tipo = "";
         switch (t) {

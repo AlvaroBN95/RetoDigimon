@@ -12,7 +12,7 @@ import java.sql.SQLException;
 public class ConexionBDD {
 
     static final String DB_URL
-            = "jdbc:mysql://192.168.103.5/Digimon";
+            = "jdbc:mysql://192.168.100.104/Digimon";
     static final String DB_DRV
             = "com.mysql.jdbc.Driver";
 
