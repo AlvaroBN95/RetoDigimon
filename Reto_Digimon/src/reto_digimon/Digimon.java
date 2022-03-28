@@ -407,7 +407,13 @@ public class Digimon {
                             break;
 
                         case 3:
-                            modificarDigimon();
+                            SLeer1.limpiar();
+                            nomDigimon = SLeer1.datoString("Escoja el digimon a modificar: ");
+                            
+                            if(!existeDigimon(nomDigimon)){
+                                System.err.println("El Digimon no esta en la tabla. ");
+                                opcion = 4;
+                            }
                             break;
 
                         case 4:
