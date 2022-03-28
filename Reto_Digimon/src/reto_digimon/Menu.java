@@ -130,11 +130,12 @@ public class Menu {
         do {
             System.out.println("\n|----------MENÚ USUARIO-----------|");
             System.out.println("|1.Jugar partida.                 |");
-            System.out.println("|2.Ver Digiequipo.                |");
-            System.out.println("|3.Administrar Digiequipo.        |");
-            System.out.println("|4.Mira tu perfil de usuario.     |");
-            System.out.println("|5.Ver todos los usuarios creados.|");
-            System.out.println("|6.Cerrar sesion.                 |");
+            System.out.println("|2.Ver todos mis Digimons         |");
+            System.out.println("|3.Ver Digiequipo.                |");
+            System.out.println("|4.Administrar Digiequipo.        |");
+            System.out.println("|5.Mira tu perfil de usuario.     |");
+            System.out.println("|6.Ver todos los usuarios creados.|");
+            System.out.println("|7.Cerrar sesion.                 |");
             System.out.println("|---------------------------------|");
             opcion = SLeer1.datoInt("Elige tu opcion: ");
 
@@ -142,26 +143,30 @@ public class Menu {
 
                 case 1:
                     System.out.println("Jugando partida contra user48395_45... VICTORIA!!");
-                    t1.asignarDigimon(nombreUsu);
+                    t1.asignarDigimon1(nombreUsu);
                     break;
 
                 case 2:
-                    t1.verEquipo(nombreUsu);
+                    t1.verDigimonsUsuario(nombreUsu);
                     break;
 
                 case 3:
-                    t1.cambiarEquipo(nombreUsu);
+                    t1.verEquipo(nombreUsu);
                     break;
 
                 case 4:
-                    u.verUsuario(nombreUsu);
+                    t1.cambiarEquipo(nombreUsu);
                     break;
                 
                 case 5:
-                    u.verUsuarios();
+                    u.verUsuario(nombreUsu);
                     break;
                     
                 case 6:
+                    u.verUsuarios();
+                    break;
+                    
+                case 7:
                     break;
 
                 default:
@@ -170,7 +175,7 @@ public class Menu {
                     break;
 
             }
-        } while (opcion >= 1 && opcion <= 5);
+        } while (opcion >= 1 && opcion <= 6);
 
     }
 
