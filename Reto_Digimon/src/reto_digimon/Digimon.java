@@ -422,7 +422,13 @@ public class Digimon {
             }
 
         } catch (Exception ex) {
+            
             System.err.println(ex.getMessage());
+            
+        }finally{
+            
+            ConexionBDD.desconectar(con);
+            
         }
 
     }

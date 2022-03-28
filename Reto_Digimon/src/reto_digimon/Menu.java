@@ -170,7 +170,7 @@ public class Menu {
                     break;
 
             }
-        } while (opcion >= 1 && opcion <= 3);
+        } while (opcion >= 1 && opcion <= 5);
 
     }
 
@@ -218,7 +218,7 @@ public class Menu {
                     opcion = 1;
                     break;
             }
-        } while (opcion >= 1 && opcion <= 3);
+        } while (opcion >= 1 && opcion <= 5);
 
     }
 
