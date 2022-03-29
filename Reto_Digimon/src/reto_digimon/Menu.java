@@ -143,7 +143,7 @@ public class Menu {
 
                 case 1:
                     System.out.println("Jugando partida contra user48395_45... VICTORIA!!");
-                    t1.asignarDigimon1(nombreUsu);
+                    t1.asignarDigimon(nombreUsu);
                     break;
 
                 case 2:
